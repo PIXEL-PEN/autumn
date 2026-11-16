@@ -194,6 +194,16 @@
         android:summary="@string/open_new_documents_always_in_new_window"
         android:title="@string/multiple_windows" />
 
+        <!-- Hides the bar's Quicknote item only. The widget, the shortcut and the month files
+             all keep working, and the widget's entry box is then the way back to the month.
+             On by default: the welcome cards teach the bar item. -->
+        <CheckBoxPreference
+        android:defaultValue="true"
+        android:icon="@drawable/ic_quicknote_black_24dp"
+        android:key="@string/pref_key__is_quicknote_enabled"
+        android:summary="@string/quicknote_show_in_bar"
+        android:title="@string/quicknote" />
+
                         <!-- Language is gone. There are 63 locale folders here, inherited from Markor, and
              none of them carries Autumn's own strings: the Calendar, Tree, Year, Timeline and
              category text is English only, and roughly a hundred upstream strings were never

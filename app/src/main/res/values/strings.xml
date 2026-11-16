@@ -641,6 +641,7 @@
         <string name="guide">Guide</string>
     <string name="browse">Browse</string>
     <string name="quicknote_none_yet">No quicknotes for this month yet</string>
+    <string name="quicknote_show_in_bar">Show the Quicknote button in the bottom bar</string>
     <string name="quicknote_saved">Quicknote saved</string>
     <string name="search_hint">Search: words, \"a phrase\", /regex/</string>
     <string name="day_card_description">Selected date. Tap to choose another.</string>

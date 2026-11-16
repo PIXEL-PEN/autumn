@@ -120,6 +120,7 @@ public class MainActivity extends AutumnBaseActivity {
         _fab = findViewById(R.id.fab_add_new_item);
         _fab.setOnClickListener(this::onClickFab);
         setUpQuicknoteNavItem();
+        applyQuicknoteVisibility();
 
 
 
@@ -593,6 +594,8 @@ public class MainActivity extends AutumnBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        // Settings is its own activity, so a change to the Quicknote switch arrives here.
+        applyQuicknoteVisibility();
         // Asked unconditionally now. This used to be gated on the intro having been seen, so
         // that the permission sheet did not land on top of the slides. With the intro gone the
         // gate would have read a preference nothing sets any more: isFirstStart would be
@@ -774,6 +777,25 @@ public class MainActivity extends AutumnBaseActivity {
                 openQuicknoteMonth();
                 return true;
             });
+        }
+    }
+
+    /**
+     * Show or hide the bar's Quicknote item to match the setting.
+     *
+     * <p>Hidden, not removed. The pager's page count is the menu size less one, and an
+     * invisible item still counts, so the three tabs keep their positions either way.
+     *
+     * <p>Changing visibility makes the bar rebuild its item views, and the long-press
+     * listener lived on the old one. setUpQuicknoteNavItem runs again to put it on the new
+     * view. Only on an actual change, so an ordinary resume does not rebuild the bar.
+     */
+    private void applyQuicknoteVisibility() {
+        final MenuItem qnItem = _bottomNav.getMenu().findItem(R.id.nav_quicknote);
+        final boolean show = _appSettings.isQuicknoteEnabled();
+        if (qnItem != null && qnItem.isVisible() != show) {
+            qnItem.setVisible(show);
+            setUpQuicknoteNavItem();
         }
     }
 
