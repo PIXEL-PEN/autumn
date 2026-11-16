@@ -152,7 +152,7 @@
          looks like part of the app rather than a help page bolted on. -->
     <color name="guide_page_bg">#F4F7F9</color>
     <color name="guide_title">#005F73</color>
-    <color name="guide_heading">#076E72</color>
+    <color name="guide_heading">#066367</color>
     <color name="guide_body">#2B3545</color>
     <color name="guide_callout_bg">#CDEBEC</color>
     <color name="guide_callout_text">#10343A</color>

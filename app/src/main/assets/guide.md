@@ -103,7 +103,7 @@ The **Quicknote widget** puts the same thing on your home screen, whether or not
 the button is switched on. Tap it, type, and tap the Autumn logo to save.
 Long-press the logo to open the month's quicknotes.
 
-> Use them sparingly. Quicknotes are for the small change of daily life. Lean on them too much and they become what General or Miscellaneous becomes: a place where things go to be lost. A quicknote written in a hurry can always be filed properly later.
+> *Use them sparingly. Quicknotes are for the small change of daily life. Lean on them too much and they become what General or Miscellaneous becomes: a place where things go to be lost. A quicknote written in a hurry can always be filed properly later.*
 
 There is an alternative. A regular note can be all title: titles run to 252
 characters, which is long enough to be a whole thought. You skim the titles with
