@@ -7,10 +7,15 @@
 #########################################################*/
 package net.pixelpen.journal.activity;
 
+import android.content.res.ColorStateList;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -34,10 +39,22 @@ import java.util.List;
  * Native views also mean no renderer assets, no page load and no zoom controls on a document
  * nobody wants to zoom.
  *
- * <p>The markdown it understands is small on purpose: {@code #} and {@code ##} headings,
- * {@code >} callouts, {@code -} bullets, paragraphs, and inline {@code **bold**} and
- * {@code `code`}. Writing the guide stays a matter of editing a text file; if you need more
- * than this subset, the guide is probably getting too elaborate.
+ * <p>The markdown it understands is small on purpose: {@code #} to {@code ###} headings,
+ * {@code >} callouts, {@code -} bullets, paragraphs, and inline {@code **bold**},
+ * {@code *italic*} and {@code `code`}. Two additions of its own:
+ *
+ * <ul>
+ * <li>{@code @icon_name text} -- an icon row: the app's own drawable on a dark chip, the way the
+ *     welcome cards show the controls, with the text beside it. The icon is tinted white;
+ *     {@code @=icon_name} keeps its own colours, for the bottom-bar icons that carry them.
+ *     An unknown name is a typo in the guide, so the row is drawn without a chip rather than
+ *     failing.</li>
+ * <li>{@code +++ Title} ... {@code +++} -- a fold: a heading that opens and closes what is between
+ *     the markers, closed to begin with. For asides most readers will skip.</li>
+ * </ul>
+ *
+ * <p>Writing the guide stays a matter of editing a text file; if you need more than this
+ * subset, the guide is probably getting too elaborate.
  */
 public class GuideActivity extends AutumnBaseActivity {
 
@@ -75,13 +92,32 @@ public class GuideActivity extends AutumnBaseActivity {
      * Group the lines into blocks and give each one a view. A block ends at a blank line, or
      * when the next line starts a different kind of block -- which is what lets consecutive
      * bullets each become their own view while a wrapped paragraph stays one.
+     *
+     * <p>A fold collects the lines up to its closing marker and renders them into its own body,
+     * through this same method, so everything that works on the page works inside a fold.
      */
     private void render(final LinearLayout container, final List<String> lines) {
         final StringBuilder para = new StringBuilder();
         final StringBuilder quote = new StringBuilder();
-        for (final String raw : lines) {
-            final String line = raw.trim();
+        for (int i = 0; i < lines.size(); i++) {
+            final String line = lines.get(i).trim();
+
+            if (line.startsWith("+++ ")) {
+                flush(container, quote, true);
+                flush(container, para, false);
+                final List<String> inner = new ArrayList<>();
+                int j = i + 1;
+                while (j < lines.size() && !lines.get(j).trim().equals("+++")) {
+                    inner.add(lines.get(j));
+                    j++;
+                }
+                fold(container, line.substring(4).trim(), inner);
+                i = j; // the closing marker, or the end if it was left off
+                continue;
+            }
+
             final boolean isQuote = line.startsWith("> ");
+            final boolean isIcon = line.matches("@=?[A-Za-z_][A-Za-z0-9_]*(\\s.*)?");
 
             // A wrapped paragraph is one view, and so is a wrapped callout. Both only end
             // when something else starts, which is why they are flushed here rather than
@@ -89,7 +125,7 @@ public class GuideActivity extends AutumnBaseActivity {
             if (!isQuote) {
                 flush(container, quote, true);
             }
-            if (line.isEmpty() || line.startsWith("#") || isQuote || line.startsWith("- ")) {
+            if (line.isEmpty() || line.startsWith("#") || isQuote || isIcon || line.startsWith("- ")) {
                 flush(container, para, false);
             }
             if (line.isEmpty()) {
@@ -106,6 +142,8 @@ public class GuideActivity extends AutumnBaseActivity {
                 append(quote, line.substring(2));
             } else if (line.startsWith("- ")) {
                 container.addView(bullet(line.substring(2)));
+            } else if (isIcon) {
+                container.addView(iconRow(line.substring(1)));
             } else {
                 append(para, line);
             }
@@ -167,6 +205,79 @@ public class GuideActivity extends AutumnBaseActivity {
         return t;
     }
 
+    /**
+     * A control as the app draws it, on a dark chip, with what it does beside it.
+     *
+     * <p>{@code spec} is the line without its {@code @}: a drawable name, then the text.
+     */
+    private View iconRow(final String spec) {
+        final boolean keepColours = spec.startsWith("=");
+        final String rest = keepColours ? spec.substring(1) : spec;
+        final int space = rest.indexOf(' ');
+        final String name = space < 0 ? rest : rest.substring(0, space);
+        final String text = space < 0 ? "" : rest.substring(space + 1).trim();
+
+        final LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        row.setGravity(Gravity.CENTER_VERTICAL);
+        final LinearLayout.LayoutParams rp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        rp.setMargins(0, (int) dp(2), 0, (int) dp(10));
+        row.setLayoutParams(rp);
+
+        @SuppressWarnings("DiscouragedApi")
+        final int id = getResources().getIdentifier(name, "drawable", getPackageName());
+        if (id != 0) {
+            final ImageView icon = new ImageView(this);
+            icon.setImageResource(id);
+            icon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            if (!keepColours) {
+                icon.setImageTintList(ColorStateList.valueOf(
+                        ContextCompat.getColor(this, R.color.welcome_text)));
+            }
+            final int pad = (int) dp(9);
+            icon.setPadding(pad, pad, pad, pad);
+            final GradientDrawable chip = new GradientDrawable();
+            chip.setColor(ContextCompat.getColor(this, R.color.welcome_bg));
+            chip.setCornerRadius(dp(10));
+            icon.setBackground(chip);
+            icon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+            final LinearLayout.LayoutParams ip = new LinearLayout.LayoutParams((int) dp(40), (int) dp(40));
+            ip.setMarginEnd((int) dp(14));
+            row.addView(icon, ip);
+        }
+
+        final TextView t = base(text, 16, R.color.guide_body);
+        row.addView(t, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        return row;
+    }
+
+    /**
+     * A heading that opens and closes the lines under it. Closed to begin with: a fold is for an
+     * aside, and the page should read straight through without it.
+     */
+    private void fold(final LinearLayout container, final String title, final List<String> inner) {
+        final TextView head = base("", 18, R.color.guide_heading);
+        head.setTypeface(head.getTypeface(), Typeface.BOLD);
+        margins(head, 0, 30, 0, 10);
+
+        final LinearLayout body = new LinearLayout(this);
+        body.setOrientation(LinearLayout.VERTICAL);
+        body.setVisibility(View.GONE);
+        render(body, inner);
+
+        final Runnable label = () -> head.setText(Html.fromHtml(
+                (body.getVisibility() == View.VISIBLE ? "\u25BE  " : "\u25B8  ") + inline(title)));
+        label.run();
+        head.setOnClickListener(v -> {
+            body.setVisibility(body.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
+            label.run();
+        });
+
+        container.addView(head);
+        container.addView(body);
+    }
+
     private TextView callout(final String text) {
         final TextView t = base(text, 16, R.color.guide_body);
         t.setBackgroundResource(R.drawable.bg_guide_callout);
@@ -177,10 +288,13 @@ public class GuideActivity extends AutumnBaseActivity {
 
     // -- helpers ---------------------------------------------------------------------------
 
-    /** The inline subset: bold and code. Escaped first, so the guide cannot inject markup. */
+    /** The inline subset: bold, italic and code. Escaped first, so the guide cannot inject markup. */
     private static String inline(final String s) {
         String out = s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;");
         out = out.replaceAll("\\*\\*(.+?)\\*\\*", "<b>$1</b>");
+        // Single asterisks after the doubles are gone. Not touching a space on the inside, so a
+        // lone asterisk in a sentence -- 5 * 3 -- stays an asterisk.
+        out = out.replaceAll("\\*(?=\\S)(.+?)(?<=\\S)\\*", "<i>$1</i>");
         out = out.replaceAll("`(.+?)`", "<tt>$1</tt>");
         return out;
     }

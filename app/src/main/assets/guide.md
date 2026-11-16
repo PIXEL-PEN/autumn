@@ -6,215 +6,257 @@ Most people keep the events and lose the order. You know it was a good year, you
 could list most of what was in it, and you could not say what came before what.
 Given long enough the whole thing settles into an undifferentiated *back then*.
 
-That is the particular failure this app is built for. It is not a planner and
-not a reminder: it takes what you write, files it under the day it belongs to,
-and gives the sequence back when you want it.
++++ Why Autumn?
+Three years ago I had cataract surgery on both eyes, the two operations about
+eight months apart. Different clinics, different underlying causes, different
+prescriptions and follow-up visits. Recovery was slow and lasted well over a year:
+irritation, eye strain, one brand of eye drops after another. Worry.
 
-What makes that useful is not the storing. Plenty of apps store what you wrote.
-The difference here is that you can put a question to the archive and get an
-answer with a shape to it: a year of one category, a decade on one page, a month
-read back in order. The writing is the easy half; being able to look at it from
-several distances is the half that pays.
+Today all I remember is how slow the recovery was. I have forgotten which eye was
+treated at which clinic, which drops worked and which caused side effects. My
+eyesight is fully restored; my memory of it is not. Should I ever need another
+course of drops, or want to look back over the details, they are all here in
+Autumn.
 
-Everything is kept as ordinary files on your phone, in folders you can read
-without this app and without any other program. Nothing you write leaves the
-device — Autumn has no permission to use the network, so it cannot send your
-journal anywhere even by accident.
+Or a smaller one. You buy an appliance and the receipt goes on the pile with all
+the others. Less than a year later it breaks, and the store will honour the
+warranty if you can find the receipt. You empty every drawer and closet and you
+cannot. A note under **Purchases** with a photo of the receipt in it, and you have
+it.
++++
 
-## The Calendar screen
+## Calendar
 
-This is what opens when you start the app, and it is deliberately almost empty.
+@ic_add_white_24dp **The plus button** makes a journal entry.
 
-A single card shows today. That is the date anything you write now will be filed
-against, so it is worth a glance before you start. **Swipe the card**, or tap it,
-and a date picker comes up — which is how you back-date something you only
-remembered this evening. The card's colour follows the month, so after a while it
-tells you roughly where you are in the year before you read the word.
-
-Under it sits the note field, a category to choose, and the two write buttons.
-
-**Browse →** at the edge of the note field opens the Tree already pointed at
-whichever category is selected. It is the short way from writing to reading when
-you want to check what you said last time.
-
-## Two ways to write
-
-There are two buttons on the Calendar screen, and they do genuinely different
-things. Most of learning Autumn is knowing which one you want.
-
-**The plus button** makes a journal entry. The card at the top of the Calendar
-screen shows the date you are filing against — tap it to choose another, which is
-how you back-date something you forgot. Pick a category, type a title, and the
-note opens so you can write. The entry gets a file of its own, filed under its
-year, month and category.
-
-The colour of the card's header follows the month, so after a while it tells you
-roughly where you are in the year before you read the word.
-
-A title can run to 252 characters, which is long enough to be a whole thought.
-That is deliberate: it means you can often write the entire entry as the title
-and simply back out of the editor without typing anything inside it. Those
-entries read as a list you can skim without opening anything.
-
-**The lightning button** makes a quicknote. No category, no file of its own, no
-decisions. It goes straight into a single document for the current month, newest
-at the top, and that document opens so you can see it landed.
-
-> If you are not sure which to use: if you would mind losing it in a year, use
-> the plus. If you would not, use the lightning.
+The date card above the input field shows the date you are filing against. Tap it
+to choose another day, which is how you back-date something you forgot. Pick a
+category, type a title, tap the plus button, and the note opens so you can write.
+Each entry is a file of its own, filed under its year, month and category.
 
 ## Categories
 
-A category is a folder with a name you chose: Work, Family, Health, Travel,
-whatever the shape of your life is. Every journal entry goes in one.
+Categories are the backbone of Autumn, and worth some thought when you set it up.
+A category is a folder with a name you chose: Work, Family, Health, Travel, a
+class, a project, whatever the shape of your life is.
 
-The category is what the Year screen and the Timeline are built on. It is how
-you get back to an entry years later without remembering when you wrote it.
+Too few categories, or ones too broad, and unrelated things pile up together. Too
+many, and every note starts with a decision you would rather not make. Decide what
+you most want to keep track of, and organise around that.
 
-Things that are useful now and dispensable later do not need one. Those are what
-quicknotes are for. They are kept outside the year folders altogether, so they
-never turn up in the Year screen and never dilute it.
+Autumn starts with eight: Finance, General, Ideas, Key Events, Medical-Health,
+Projects, Reference and Social. Rename, delete or add your own. General stays.
 
-You can manage your categories from Settings. Renaming one moves every note
-inside it; deleting one asks where its notes should go.
+## Reading and writing
+
+@ic_visibility_black_24dp **Reading mode** shows a note as a clean page. Notes open this way when you are browsing, as from the Tree.
+
+@ic_edit_black_24dp **Writing mode** is the editor. Notes open this way when you came to write: a new note from the Calendar, or a search result, which opens at the matching line.
+
+The pencil and eye in the top bar switch between the two at any time.
+
+## The action bar
+
+While you write, a row of buttons sits under the text. Swipe it sideways for
+more. The ones a journal uses most:
+
+@ic_image_black_24dp **Picture.** Take a photo or choose one. It is shown in the note and kept in the archive's `Images` folder.
+
+@ic_access_time_black_24dp **Date and time.** Tap to choose a format; long-press to insert the last one used. Good for running logs.
+
+@ic_check_box_black_24dp **Checklist.** A list of boxes to tick.
+
+@ic_list_black_24dp **Bullet list.** Starts or continues a list.
+
+@ic_format_bold_black_24dp **Bold**, with *italic* and strikethrough beside it.
+
+@format_header_1 **Headings**, in three sizes, for a long note that needs sections.
+
+@ic_format_quote_black_24dp **Quote**, for what someone actually said.
+
+@ic_arrow_drop_down_black_24dp **Fold.** A section that stays closed in reading mode until tapped, like *Why Autumn?* at the top of this guide.
+
+@ic_link_black_24dp **Attach.** A file, copied into the archive's `Files` folder and linked from the note.
+
+The order of the row is yours to change: **Settings → Editing → Action button
+order**.
+
+## Pictures and files
+
+Pictures live in one place, `Images`, organised by year, and attachments in
+`Files`. It does not matter which screen you add a picture from: it goes to the
+same place, so nothing is scattered.
+
+Tap a thumbnail anywhere to see it full screen, and swipe to move between
+pictures.
+
+## Quicknotes
+
+@=ic_nav_quicknote **The lightning button** makes a quicknote. No category, no file of its own, no decisions.
+
+Each quicknote goes into a single document for the month, newest first. The
+button is off to begin with: switch it on in **Settings → General → Quicknote**.
+Then type or dictate a note on the Calendar screen and tap the bolt to save it.
+Long-press the bolt to read back the month's quicknotes.
+
+The **Quicknote widget** puts the same thing on your home screen, whether or not
+the button is switched on. Tap it, type, and tap the Autumn logo to save.
+Long-press the logo to open the month's quicknotes.
+
+> Use them sparingly. Quicknotes are for the small change of daily life. Lean on them too much and they become what General or Miscellaneous becomes: a place where things go to be lost. A quicknote written in a hurry can always be filed properly later.
+
+There is an alternative. A regular note can be all title: titles run to 252
+characters, which is long enough to be a whole thought. You skim the titles with
+the benefit of categories, and can always open the note and write more. In the
+Tree, a long title shows an empty dot when there is nothing more to it, and a
+filled dot when there is.
 
 ## The Tree
 
-The Tree shows your whole archive: categories, then years, then the notes
-themselves, newest first.
+The Tree shows your whole archive: the years, the months, the categories and the
+notes themselves, newest first.
 
 - Tap a note to read it.
 - Long-press a note to rename, move or delete it.
 - Categories stay closed until you open one, and close again when you leave.
 
-Files that are not journal entries — your quicknotes, imported documents —
-appear under **Other files**, kept apart from the journal years.
+Files that are not journal entries, such as your quicknotes or anything copied
+into the folder by hand, appear under **Other files**, kept apart from the years.
 
 ## The Year screen
 
-The Year screen is the long view: a year on one page.
+The Year screen is the long view: one year on one page.
 
 **Highlights** are the handful of things you want to remember about the year.
 There is no limit; a new empty slot appears as you fill them. They sort by the
 month they are about, not the day you wrote them.
 
 **Personal growth** is a single open field for achievements, milestones, proud
-moments, aspirations — the things that do not belong to one date.
+moments and aspirations: the things that do not belong to one date.
 
-Below those, every month lists its entries, newest first. Tap any one to open
-it.
+Below those, every month lists its entries, newest first. Tap one to open it.
 
-### One category, one year, at a glance
+### One category, one year
 
-The dropdown at the top filters the whole year to a single category, and this is
-probably the most useful thing the app does.
+The **dropdown** at the top filters the whole year to a single category, and this
+is probably the most useful thing the app does.
 
-Pick one and scroll. A year of it fits in a few seconds of thumb, and what you
-get is not a list so much as a shape: which months were busy, which were empty,
-where things clustered. You see the pattern before you read a word of it.
+Pick one and scroll. A year of it fits in a few seconds of thumb, and what you get
+is not a list so much as a shape: which months were busy, which were empty, where
+things clustered. You see the pattern before you read a word of it.
 
 It earns its keep when something is going on. Choose a health category and the
-year lays itself out — every appointment, every clinic visit, every trip to the
-pharmacy, in order. The hard months are the dense ones; you can see them from
-the top of the screen. And when you need the actual detail, the name of a drug,
-a dose, a side effect, what the consultant actually said, it is one tap away in
-the note itself.
+year lays itself out: every appointment, every clinic visit, every trip to the
+pharmacy, in order. The hard months are the dense ones; you can see them from the
+top of the screen. And when you need the detail, the name of a drug, a dose, a
+side effect, what the consultant actually said, it is one tap away in the note.
 
-The same works for anything you keep faithfully: a year of a project, a year of
-a relationship, a year of a house.
-
-You can add pictures to a year from the row under **Images**, which starts
-closed.
-
-## Reading mode and writing mode
-
-Notes open in reading mode when you are browsing, and in writing mode when you
-came to write. The pencil in the top bar switches between them at any time.
-
-So tapping a note in the Tree gives you a clean rendered page, while the plus
-button drops you straight into the editor with the cursor ready.
-
-## Pictures and files
-
-Pictures live in one place, `Images`, organised by year, and attachments in
-`Files`. It does not matter which screen you add a picture from — it goes to the
-same place, so nothing is scattered.
-
-Tap a thumbnail anywhere to see it full screen, and swipe to move between
-pictures.
+The same works for anything you keep faithfully: a year of a project, a year of a
+relationship, a year of a house.
 
 ## Searching
 
-The magnifier searches every note in the archive. Results show the matching line
-and its category, and tapping one opens the note at that line rather than at the
-top.
+@ic_search_black_24dp **The magnifier** searches every note in the archive.
+
+Results show the matching line and its category, and tapping one opens the note
+at that line rather than at the top.
 
 Three ways to ask:
 
-- **blue fridge** finds notes containing both words. They do not have to be near
-  each other, or even on the same line: a note titled "Fridge" with "the blue
-  one" in the body is a match. More words narrow the search, never widen it.
+- **blue fridge** finds notes containing both words. They do not have to be near each other, or even on the same line: a note titled "Fridge" with "the blue one" in the body is a match. More words narrow the search, never widen it.
 - **"blue fridge"** in quotes finds that phrase exactly as written.
-- **/fridges?/** between slashes is a regular expression, if you know them. A
-  half-typed one is treated as ordinary text rather than finding nothing.
+- **/fridges?/** between slashes is a regular expression, if you know them. A half-typed one is treated as ordinary text rather than finding nothing.
 
 Searches ignore capitals, and a result lands on the line that matches the most of
 what you asked for.
 
+## Shortcuts
+
+Any note can be put on your home screen: open it, and choose **Add to home
+screen** from its menu. A shortcut opens the note ready to write in, which suits a
+running log of one thing: a course of treatment, a car's servicing, a renovation.
+Use the date-and-time button to stamp each entry.
+
+## Bringing notes in
+
+Text and Markdown files from elsewhere can become notes, three ways:
+
+- **Share → Autumn** from any app, for a file or a piece of text.
+- **Open with → Autumn** from a file manager.
+- **Import file…** in the overflow menu.
+
+Each opens a small form: a title taken from the file name, a category, and a
+date, today unless you tap it to choose another. The content is copied into the
+archive and dated like any other note. The original is left as it was.
+
 ## The Timeline
 
-This is the reason for the rest of it.
+@ic_history_black_24dp **Timeline**, in the overflow menu, is a project of its own.
 
-From the overflow menu, **Timeline** builds your whole archive as a single
-scrolling web page: decades, then years, then months down a gutter, with every
-entry in order and the pictures sitting where they happened.
+The journal is written as things happen. The Timeline is put together from
+memory: your life a year at a time, going back as far as you care to. It is kept
+separately, and nothing in the journal flows into it by itself.
 
-Writing one note at a time, you never see the shape of it. The Timeline is where
-a few hundred notes stop being a folder and become a life you can read in one
-pass — and where the thing that blurs first, the order, is the one thing it
-cannot lose.
+Its parts are simple:
 
-The file is self-contained, pictures and all. It opens on any computer without
-Autumn installed, it prints, and it will still open in twenty years, which is
-not something you can say of most things you could export to.
+- **Years.** The plus button lays down a whole span at once, 1975 to now if you like. An empty year is normal; it is a place waiting to be filled.
+- **A highlight** for each year: the one line the year is remembered by, shown beside its number.
+- **Lines** about what happened. Start a line with a month, such as "March" or "14 March", and it is placed in that month. A line without one is kept with the year.
+- **Pictures**, a few from that year.
 
-Build one at the end of a year. It is the clearest view of that year you will
-get, and it costs nothing to keep a copy somewhere other than your phone.
+### Going backwards
 
-### Going backwards: the life log
+Start with one phrase for the whole year. One word is often enough to define a
+year: 2020 is Covid, and you need nothing else for it to come back. Put a phrase
+against a year and you will find it starts pulling things with it: the graduation
+year, the first car, the year you fell in love, the year you moved.
 
-The Timeline does not only have to hold the years you kept Autumn for. You can
-reconstruct the ones before it, and that is a project worth doing slowly.
-
-Start with one phrase for the whole year. The first highlight you give a year
-is shown beside its number on the Timeline, set off in colour, and one word is
-often enough to define a year: 2020 is Covid, and you need nothing else for that
-year to come back. Put a single phrase against a year and you will find it
-starts pulling things with it — the graduation year, the first car, the year you
-fell in love, the year you moved.
-
-Then add bullets as they arrive. They will not arrive in order and they will not
+Then add lines as they arrive. They will not arrive in order and they will not
 arrive all at once. Go through photographs. Go through the drawer of things you
 kept. Ask relatives, who remember different years from you and will contradict
 you usefully.
 
-Expect enormous gaps, and do not treat them as failure. Four entries in a year
-is not an empty year, it is four anchors, and the next thing you remember will
+Expect enormous gaps, and do not treat them as failure. Four lines in a year is
+not an empty year, it is four anchors, and the next thing you remember will
 attach itself to one of them. A life log is built and rebuilt over years. It is
 never finished, which is the point: there is always a rainy afternoon's work in
 it, and it is better every time you come back.
+
+### Going forwards
+
+From here on, the years you keep a journal for are the easy ones, because the
+material is already written down. At the end of a year, open its Year screen. The
+highlights you kept, and the months that filled up, tell you what belongs on the
+Timeline. Carry over the few lines that matter. The journal keeps the detail; the
+Timeline keeps the shape.
+
+### Keeping it
+
+**Export as web page**, in the Timeline's own menu, builds the whole Timeline as
+one page, pictures and all. It opens on any computer without Autumn installed, it
+prints, and it will still open in twenty years, which is not something you can say
+of most things you could export to. Build one at the end of a year, and keep a
+copy somewhere other than your phone.
+
+## On a tablet
+
+A tablet keyboard is wide, and awkward to type on with thumbs. Most keyboards can
+float as a phone-sized keyboard you can move anywhere on the screen. In Gboard,
+tap **⋯** in its top row and choose **Floating**.
 
 ## Where your files are
 
 Everything is under `Documents/Autumn` on your phone:
 
-- `<Year>/<Month>/<Category>/` — journal entries
-- `Quicknotes/<Year>/` — one document per month
-- `Images/<Year>/` and `Files/<Year>/` — pictures and attachments
+- `<Year>/<Month>/<Category>/`: journal entries
+- `Quicknotes/<Year>/`: one document per month
+- `Timeline/<Year>/`: the Timeline, a folder per year
+- `Images/<Year>/` and `Files/<Year>/`: pictures and attachments
 
 They are plain Markdown text files. If this app disappeared tomorrow, every word
 you wrote would still be readable in any text editor on any device. That is the
 point of storing it this way.
 
-**Backup** in the overflow menu copies the whole archive into a single zip, to
-anywhere you choose.
+**Back up archive**, in the overflow menu, copies the whole archive into a single
+zip, to anywhere you choose. **Export html archive** turns it into web pages,
+zipped, for reading on a computer.
