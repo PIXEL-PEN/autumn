@@ -104,3 +104,4 @@ app/flavor*
 
 /.favorites.json
 /.vscode
+app/release/
