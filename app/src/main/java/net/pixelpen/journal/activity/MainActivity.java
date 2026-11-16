@@ -94,6 +94,10 @@ public class MainActivity extends AutumnBaseActivity {
     private MenuItem _searchElsewhereItem;
     private MenuItem _backupItem;
     private MenuItem _exportItem;
+    private MenuItem _importItem;
+
+    /** The system picker's answer for Import file. Below 16 bits, as FragmentActivity needs. */
+    private static final int REQUEST_IMPORT_FILE = 7401;
     private MenuItem _settingsItem;
 
     private androidx.appcompat.widget.Toolbar _toolbar;
@@ -290,6 +294,10 @@ public class MainActivity extends AutumnBaseActivity {
             runArchiveExport();
             return true;
         }
+        if (item.getItemId() == R.id.action_import_file) {
+            pickFileToImport();
+            return true;
+        }
         if (item.getItemId() == R.id.action_search_screen) {
             _cu.animateToActivity(this, SearchActivity.class, false, null);
             return true;
@@ -315,6 +323,7 @@ public class MainActivity extends AutumnBaseActivity {
         _searchElsewhereItem = menu.findItem(R.id.action_search_screen);
         _backupItem = menu.findItem(R.id.action_backup);
         _exportItem = menu.findItem(R.id.action_export_archive);
+        _importItem = menu.findItem(R.id.action_import_file);
         _searchItem = menu.findItem(R.id.action_search);
         final androidx.appcompat.widget.SearchView search =
                 (androidx.appcompat.widget.SearchView) _searchItem.getActionView();
@@ -581,6 +590,9 @@ public class MainActivity extends AutumnBaseActivity {
         }
         if (_exportItem != null) {
             _exportItem.setVisible(wanted);
+        }
+        if (_importItem != null) {
+            _importItem.setVisible(wanted);
         }
         if (_settingsItem != null) {
             _settingsItem.setVisible(wanted);
@@ -1000,9 +1012,35 @@ public class MainActivity extends AutumnBaseActivity {
         super.onStop();
     }
 
+    /**
+     * Import file: the system's document picker, then the Import form with what was picked.
+     *
+     * <p>Any type is offered alongside text, because many file managers report a .md file as
+     * application/octet-stream. The form refuses anything that is not text once it has read it.
+     */
+    private void pickFileToImport() {
+        final Intent pick = new Intent(Intent.ACTION_OPEN_DOCUMENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType("*/*")
+                .putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"text/*", "application/octet-stream"});
+        try {
+            startActivityForResult(pick, REQUEST_IMPORT_FILE);
+        } catch (android.content.ActivityNotFoundException e) {
+            Toast.makeText(this, R.string.import_failed, Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMPORT_FILE) {
+            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                startActivity(new Intent(this, ImportActivity.class)
+                        .setData(data.getData())
+                        .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION));
+            }
+            return;
+        }
         _cu.extractResultFromActivityResult(this, requestCode, resultCode, data);
     }
 

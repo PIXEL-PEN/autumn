@@ -58,6 +58,16 @@
         app:showAsAction="never" />
 
     <!--
+      A text file from elsewhere, brought in as a note. The system picker, then the Import form.
+    -->
+    <item
+        android:id="@+id/action_import_file"
+        android:orderInCategory="49"
+        android:title="@string/import_file"
+        android:visible="false"
+        app:showAsAction="never" />
+
+    <!--
       A copy of the whole archive, handed to the share sheet. Not a format of its own: the folder
       of markdown is already the backup, and this only picks it all up at once.
     -->
