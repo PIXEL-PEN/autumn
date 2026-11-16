@@ -278,12 +278,34 @@ public class GuideActivity extends AutumnBaseActivity {
         container.addView(body);
     }
 
-    private TextView callout(final String text) {
-        final TextView t = base(text, 16, R.color.guide_body);
-        t.setBackgroundResource(R.drawable.bg_guide_callout);
-        t.setPadding((int) dp(16), (int) dp(14), (int) dp(16), (int) dp(14));
-        margins(t, 0, 6, 0, 16);
-        return t;
+    /**
+     * A tinted panel with a lightbulb at its start, set in from both edges so it reads as an
+     * aside. It was a full-width panel with a teal spine, which on the pale page was easy to
+     * take for part of the text.
+     */
+    private View callout(final String text) {
+        final LinearLayout box = new LinearLayout(this);
+        box.setOrientation(LinearLayout.HORIZONTAL);
+        box.setBackgroundResource(R.drawable.bg_guide_callout);
+        box.setPadding((int) dp(14), (int) dp(14), (int) dp(18), (int) dp(14));
+        final LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        bp.setMargins((int) dp(12), (int) dp(6), (int) dp(12), (int) dp(18));
+        box.setLayoutParams(bp);
+
+        final ImageView bulb = new ImageView(this);
+        bulb.setImageResource(R.drawable.ic_lightbulb_black_24dp);
+        bulb.setImageTintList(ColorStateList.valueOf(
+                ContextCompat.getColor(this, R.color.guide_heading)));
+        bulb.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        final LinearLayout.LayoutParams ip = new LinearLayout.LayoutParams((int) dp(22), (int) dp(22));
+        ip.setMarginEnd((int) dp(12));
+        ip.topMargin = (int) dp(2);
+        box.addView(bulb, ip);
+
+        final TextView t = base(text, 16, R.color.guide_callout_text);
+        box.addView(t, new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f));
+        return box;
     }
 
     // -- helpers ---------------------------------------------------------------------------

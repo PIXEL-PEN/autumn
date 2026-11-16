@@ -114,7 +114,8 @@
 
     <!-- The Guide -->
     <color name="guide_body">#DCE4EB</color>
-    <color name="guide_callout_bg">#16282B</color>
+    <color name="guide_callout_bg">#1C3337</color>
+    <color name="guide_callout_text">#E3EEF0</color>
     <color name="guide_callout_rule">#2BB3A8</color>
     <color name="guide_heading">#2BB3A8</color>
     <color name="guide_page_bg">#141D24</color>

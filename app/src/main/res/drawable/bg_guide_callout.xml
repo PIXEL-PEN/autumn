@@ -1,17 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- A tinted panel with a teal spine on the leading edge: the whole shape in teal, then the
-     fill laid over it inset from the start, so only a 4dp band shows. -->
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/guide_callout_rule" />
-            <corners android:radius="6dp" />
-        </shape>
-    </item>
-    <item android:start="4dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/guide_callout_bg" />
-            <corners android:radius="6dp" />
-        </shape>
-    </item>
-</layer-list>
+<!-- A tinted panel, rounded all round. It had a teal spine down the leading edge; the
+     lightbulb at the start of the callout marks it now. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/guide_callout_bg" />
+    <corners android:radius="10dp" />
+</shape>
