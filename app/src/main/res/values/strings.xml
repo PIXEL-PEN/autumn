@@ -692,7 +692,7 @@
     <string name="welcome_demo_new">new note</string>
     <string name="welcome_quicknote_title">Quicknote</string>
     <string name="welcome_quicknote_body">The weather, an observation, a name. Some things are worth a line, not a page.</string>
-    <string name="welcome_quicknote_tap">Enter a note, tap the Quicknote icon to save it.</string>
+    <string name="welcome_quicknote_tap">Enter a note, tap the Quicknote icon\nto save it.</string>
     <string name="welcome_quicknote_hold">Long-press it to look back over your Quicknotes.</string>
     <string name="welcome_demo_quicknote_label">Quicknote \u00B7 14:05</string>
     <string name="welcome_demo_quicknote_text">Light rain. First frost on the car. Met Jo at the bakery.</string>
