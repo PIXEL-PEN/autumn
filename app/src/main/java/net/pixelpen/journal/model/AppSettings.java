@@ -814,7 +814,7 @@ public class AppSettings extends GsSharedPreferencesPropertyBackend {
      * the widget, its entry box and the month files are untouched.
      */
     public boolean isQuicknoteEnabled() {
-        return getBool(R.string.pref_key__is_quicknote_enabled, true);
+        return getBool(R.string.pref_key__is_quicknote_enabled, false);
     }
 
     public boolean isMultiWindowEnabled() {

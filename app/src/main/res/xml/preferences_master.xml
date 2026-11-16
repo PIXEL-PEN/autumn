@@ -196,9 +196,9 @@
 
         <!-- Hides the bar's Quicknote item only. The widget, the shortcut and the month files
              all keep working, and the widget's entry box is then the way back to the month.
-             On by default: the welcome cards teach the bar item. -->
+             Off by default. -->
         <CheckBoxPreference
-        android:defaultValue="true"
+        android:defaultValue="false"
         android:icon="@drawable/ic_quicknote_black_24dp"
         android:key="@string/pref_key__is_quicknote_enabled"
         android:summary="@string/quicknote_show_in_bar"
