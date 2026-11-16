@@ -229,6 +229,13 @@
             android:selectable="false"
             android:title="@string/app_copyright" />
 
+        <!-- Where to write. Tapping copies the address; see app_feedback_email. -->
+        <Preference
+            android:icon="@drawable/gs_email_sign_black_24dp"
+            android:key="@string/pref_key__more_info__feedback_email"
+            android:summary="@string/app_feedback_email"
+            android:title="@string/feedback" />
+
         <!-- Strictly Autumn's own licence. The Apache and MIT notices for the inherited code
              used to sit in here too, which made a row called Project license open a dialog
              mostly about two other projects. They were already listed in full under Open

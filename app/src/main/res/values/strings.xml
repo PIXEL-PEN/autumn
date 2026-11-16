@@ -643,6 +643,7 @@
     <string name="quicknote_none_yet">No quicknotes for this month yet</string>
     <string name="quicknote_show_in_bar">Show the Quicknote button in the bottom bar</string>
     <string name="import_note">Import note</string>
+    <string name="feedback">Feedback</string>
     <string name="import_file">Import file\u2026</string>
     <string name="import_shared_text">Shared text</string>
     <string name="import_failed">Could not import that. Only text files can be imported.</string>

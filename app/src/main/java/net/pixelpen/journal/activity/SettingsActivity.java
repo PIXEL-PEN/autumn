@@ -196,6 +196,11 @@ public class SettingsActivity extends AutumnBaseActivity {
                     }
                     return true;
                 }
+                case R.string.pref_key__more_info__feedback_email: {
+                    _cu.setClipboard(getContext(), getString(R.string.app_feedback_email));
+                    Toast.makeText(getContext(), R.string.clipboard, Toast.LENGTH_SHORT).show();
+                    return true;
+                }
                 case R.string.pref_key__more_info__copy_build_information: {
                     // Copies the row's own summary, which is the build information. Upstream
                     // also opened the changelog here, which is why a row called "Build

@@ -15,8 +15,15 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="pref_key__blank_line_between_bullets" translatable="false">pref_key__blank_line_between_bullets</string>
     <string name="app_license_name" translatable="false">GPL-3.0</string>
     <!-- The copyright line, on its own row at the top of About. One string so it can be
-         edited without touching layout or code when a legal name replaces PIXEL-PEN. -->
-    <string name="app_copyright" translatable="false">Copyright © 2026 PIXEL-PEN</string>
+         edited without touching layout or code when a legal name replaces PIXEL-PEN.
+         PLACEHOLDER: PIXEL-PEN until the legal or business name is confirmed.
+         The flag is the emoji itself, written as the character: no drawable to maintain,
+         and every Android version this app supports draws it. -->
+    <string name="app_copyright" translatable="false">Copyright © 2026 PIXEL-PEN, Vancouver, BC 🇨🇦</string>
+    <!-- PLACEHOLDER: the feedback address, until the real one is set up. Shown as text and
+         copied on tap, not opened as a mailto link: the app does not hand off to the network,
+         and a copied address works with whatever mail the reader uses. -->
+    <string name="app_feedback_email" translatable="false">feedback@example.com</string>
     <!-- Our project, not upstream's. These pointed at gsantner/markor's discussion board, which
          sent this fork's bug reports to the Markor maintainer. -->
     <string name="app_community_url" translatable="false">https://github.com/PIXEL-PEN/markor/discussions</string>
@@ -186,6 +193,7 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="pref_key__more_info__project_community" translatable="false">pref_key__more_info__project_community</string>
     <string name="pref_key__more_info__project_team" translatable="false">pref_key__more_info__project_team</string>
     <string name="pref_key__more_info__copy_build_information" translatable="false">pref_key__more_info__copy_build_information</string>
+    <string name="pref_key__more_info__feedback_email" translatable="false">pref_key__more_info__feedback_email</string>
     <string name="pref_key__editor_textaction_bar_item_padding" translatable="false">pref_key__editor_textaction_bar_item_padding</string>
     <string name="pref_key__editor_disable_spelling_red_underline" translatable="false">pref_key__editor_disable_spelling_red_underline</string>
     <string name="pref_key__highlight_code_monospace_font" translatable="false">pref_key__highlight_code_monospace_font</string>
