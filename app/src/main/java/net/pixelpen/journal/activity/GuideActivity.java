@@ -250,6 +250,8 @@ public class GuideActivity extends AutumnBaseActivity {
         shape.setColor(ContextCompat.getColor(this, R.color.guide_tagline));
         shape.setCornerRadius(dp(2));
         bar.setBackground(shape);
+        // A shade lighter than the proverb, so the bar marks the lines without competing with them.
+        bar.setAlpha(0.75f);
         final LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(
                 (int) dp(3), LinearLayout.LayoutParams.MATCH_PARENT);
         bp.setMarginEnd((int) dp(12));
