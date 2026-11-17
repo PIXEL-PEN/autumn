@@ -20,10 +20,10 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
          The flag is the emoji itself, written as the character: no drawable to maintain,
          and every Android version this app supports draws it. -->
     <string name="app_copyright" translatable="false">Copyright © 2026 PIXEL-PEN, Vancouver, BC 🇨🇦</string>
-    <!-- PLACEHOLDER: the feedback address, until the real one is set up. Shown as text and
-         copied on tap, not opened as a mailto link: the app does not hand off to the network,
-         and a copied address works with whatever mail the reader uses. -->
-    <string name="app_feedback_email" translatable="false">feedback@example.com</string>
+    <!-- The feedback address. Shown as text and copied on tap, not opened as a mailto link:
+         the app does not hand off to the network, and a copied address works with whatever
+         mail the reader uses. -->
+    <string name="app_feedback_email" translatable="false">autumn@spokenfor.ca</string>
     <!-- Our project, not upstream's. These pointed at gsantner/markor's discussion board, which
          sent this fork's bug reports to the Markor maintainer. -->
     <string name="app_community_url" translatable="false">https://github.com/PIXEL-PEN/markor/discussions</string>
