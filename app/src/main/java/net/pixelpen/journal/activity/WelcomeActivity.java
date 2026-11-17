@@ -28,6 +28,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import net.gsantner.opoc.util.GsContextUtils;
+import net.pixelpen.journal.BuildConfig;
 import net.pixelpen.journal.R;
 
 import java.util.ArrayList;
@@ -48,13 +49,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class WelcomeActivity extends AutumnBaseActivity {
 
     /**
-     * BEFORE PUBLICATION: set to false.
+     * Debug builds show the cards on every launch, for testing; Don't show again is then
+     * ignored. Release builds show them until the run is finished or Don't show again is
+     * chosen, which is the behaviour users should get.
      *
-     * <p>True shows the cards on every launch, debug and release alike, for testing and
-     * screenshots; Don't show again is then ignored. False shows them until the run is
-     * finished or Don't show again is chosen, which is the behaviour users should get.
+     * <p>Tied to the build type rather than a constant to flip by hand, so a release can never
+     * go out still showing them every time.
      */
-    private static final boolean ALWAYS_SHOW = true;
+    private static final boolean ALWAYS_SHOW = BuildConfig.DEBUG;
 
     private static final String PREFS = "welcome";
     private static final String KEY_DONE = "done";
@@ -84,7 +86,7 @@ public class WelcomeActivity extends AutumnBaseActivity {
     /**
      * Opens the cards if they are due. True when they were opened.
      *
-     * <p>{@link #ALWAYS_SHOW} overrides the done flag in every build until publication.
+     * <p>{@link #ALWAYS_SHOW} overrides the done flag in debug builds.
      */
     public static boolean showIfDue(final Activity from) {
         if (_shownThisRun || (!ALWAYS_SHOW && isDone(from))) {
