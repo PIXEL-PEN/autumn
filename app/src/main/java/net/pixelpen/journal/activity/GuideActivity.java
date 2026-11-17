@@ -251,8 +251,12 @@ public class GuideActivity extends AutumnBaseActivity {
         shape.setCornerRadius(dp(1));
         bar.setBackground(shape);
         final LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(
-                (int) dp(2), LinearLayout.LayoutParams.MATCH_PARENT);
+                Math.max(1, (int) dp(1.5f)), LinearLayout.LayoutParams.MATCH_PARENT);
         bp.setMarginEnd((int) dp(12));
+        // Shorter than the two lines it marks: inset top and bottom, so it does not run the
+        // full height of the text like a rule.
+        bp.topMargin = (int) dp(6);
+        bp.bottomMargin = (int) dp(6);
         row.addView(bar, bp);
 
         final LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(
