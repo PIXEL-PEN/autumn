@@ -22,7 +22,7 @@ android {
 
     defaultConfig {
         applicationId "net.pixelpen.journal"
-        versionCode Integer.parseInt(new Date().format('yyMMdd'))
+        versionCode 1  // Plain counter: add 1 for every release, alongside versionName.
         versionName "1.0"
 
         minSdkVersion rootProject.ext.version_minSdk
@@ -47,7 +47,7 @@ android {
         buildConfigField "String", "BUILD_DATE", "\"${getBuildDate()}\""
         buildConfigField "String", "GITHASH", "\"${getGitHash}\""
 
-        setProperty("archivesBaseName", "autumn-" + versionName + "-" + versionCode)
+        setProperty("archivesBaseName", "autumn-v" + versionName)
     }
 
     // No product flavors.
