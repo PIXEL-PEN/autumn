@@ -1,0 +1,3 @@
+First release.
+
+Calendar capture into year, month and category. The Tree, the Year screen and search. Timeline, a life log built from memory. Optional Quicknotes and a home-screen widget. Import of text and Markdown files. Backup and HTML export. No internet permission.

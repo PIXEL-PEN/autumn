@@ -1,10 +1,27 @@
-Autumn is a journalling and archiving app for Android.
+<i>The palest ink is better than the best memory.</i> — Chinese proverb
 
-It is not a planner and not a reminder app. It is a memory aid: log a titled note into the right year, month and category, then browse it back in chronological order.
+<b>You remember what happened. Autumn remembers when.</b>
 
-* Fast capture. Pick a date, pick a category, type a title, submit.
-* Creation order, not edit order. An entry written in March stays in March, however often you revise it.
-* Local and offline. Plain Markdown files in a folder you own. No account, no sync service.
-* Markdown editor with syntax highlighting, search and replace, and a customisable action bar.
+Most people keep the events and lose the order. Autumn is a private journal and personal archive: write a note into the right year, month and category, and find it again years later by when it happened.
 
-Autumn is a modified fork of Markor (Copyright 2017-2025 Gregor Santner), licensed under the Apache License 2.0. It is not affiliated with or endorsed by the Markor project.
+<b>Capture</b>
+* Pick a date, pick a category, type a title, and write. Back-date anything you forgot.
+* Titles run to 252 characters, so a short note can be all title.
+* Optional Quicknotes and a home-screen widget, for a line in passing.
+* Import text and Markdown files, from the share sheet or a file manager.
+
+<b>Look back</b>
+* The Tree: the whole archive by year, month and category.
+* The Year screen: highlights, personal growth, and any one category across a whole year.
+* Search every note; results open at the matching line.
+* Timeline: a life log built from memory, one year at a time, exported as a single web page.
+
+<b>Private and offline</b>
+* No internet permission. No account, no ads, no tracking.
+* Notes are plain Markdown files in Documents/Autumn, readable without the app.
+* Pictures are kept in one folder, out of your gallery.
+* Back up the whole archive to a single zip.
+
+Autumn needs access to your storage to keep its files in Documents/Autumn.
+
+Autumn is a fork of Markor (Copyright 2017-2025 Gregor Santner). It is licensed under the GPL-3.0, and is not affiliated with or endorsed by the Markor project.
