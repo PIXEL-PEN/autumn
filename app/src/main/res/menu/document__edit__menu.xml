@@ -92,19 +92,20 @@
       Move to category is hidden unless the file sits in a Year/Month/Category slot, and unless
       the note is being read rather than edited.
     -->
-    <item
-        android:id="@+id/action_move_to_category"
-        android:title="@string/move_to_category"
-        app:showAsAction="never" />
-
     <!--
       Settings, reachable while reading a note so the app's behaviour can be adjusted without
-      walking back out to the main screen first.
+      walking back out to the main screen first. First in
+      the list, as it is second on the main screen's, under Home.
     -->
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings_black_24dp"
         android:title="@string/settings"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_move_to_category"
+        android:title="@string/move_to_category"
         app:showAsAction="never" />
 
     <item
