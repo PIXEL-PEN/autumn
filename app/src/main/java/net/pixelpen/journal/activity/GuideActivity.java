@@ -148,8 +148,13 @@ public class GuideActivity extends AutumnBaseActivity {
                     // sits to the text above: the two belong together, under the title.
                     final boolean afterTagline = container.getChildCount() > 0
                             && TAGLINE.equals(container.getChildAt(container.getChildCount() - 1).getTag());
-                    container.addView("~ ".equals(prefix) ? tagline(joined.toString())
-                            : heading(joined.toString(), prefix.length() - 1, afterTagline));
+                    if ("~ ".equals(prefix)) {
+                        container.addView(tagline(joined.toString()));
+                    } else if (afterTagline) {
+                        container.addView(anchored(heading(joined.toString(), prefix.length() - 1, true)));
+                    } else {
+                        container.addView(heading(joined.toString(), prefix.length() - 1, false));
+                    }
                     continue;
                 }
             }
@@ -225,6 +230,35 @@ public class GuideActivity extends AutumnBaseActivity {
         t.setTag(TAGLINE);
         margins(t, 0, 2, 0, 4);
         return t;
+    }
+
+    /**
+     * The subtitle under the tagline, set in from the left behind a short bar in the tagline's
+     * colour. Without it the two lines floated: bold like a section heading, but with nothing
+     * under them to head.
+     */
+    private View anchored(final TextView heading) {
+        final LinearLayout row = new LinearLayout(this);
+        row.setOrientation(LinearLayout.HORIZONTAL);
+        final LinearLayout.LayoutParams rp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        rp.setMargins((int) dp(4), (int) dp(10), 0, (int) dp(14));
+        row.setLayoutParams(rp);
+
+        final View bar = new View(this);
+        final GradientDrawable shape = new GradientDrawable();
+        shape.setColor(ContextCompat.getColor(this, R.color.guide_tagline));
+        shape.setCornerRadius(dp(2));
+        bar.setBackground(shape);
+        final LinearLayout.LayoutParams bp = new LinearLayout.LayoutParams(
+                (int) dp(3), LinearLayout.LayoutParams.MATCH_PARENT);
+        bp.setMarginEnd((int) dp(12));
+        row.addView(bar, bp);
+
+        final LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(
+                0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        row.addView(heading, hp);
+        return row;
     }
 
     /** Marks a tagline view, so the heading after it knows to sit close. */
