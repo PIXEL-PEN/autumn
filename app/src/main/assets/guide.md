@@ -1,6 +1,10 @@
 # Autumn
 
-## You remember what happened. Autumn remembers when.
+~ *The palest ink is better than the best memory.*
+~ — Chinese proverb
+
+## You remember what happened.
+## Autumn remembers when.
 
 Most people keep the events and lose the order. You know it was a good year, you
 could list most of what was in it, and you could not say what came before what.
@@ -60,7 +64,7 @@ The pencil and eye in the top bar switch between the two at any time.
 While you write, a row of buttons sits under the text. Swipe it sideways for
 more. The ones a journal uses most:
 
-@ic_image_black_24dp **Picture.** Take a photo or choose one. It is shown in the note and kept in the archive's `Images` folder.
+@ic_image_black_24dp **Picture.** Choose an image from your albums. It is shown in the note and kept in the archive's `Images` folder.
 
 @ic_access_time_black_24dp **Date and time.** Tap to choose a format; long-press to insert the last one used. Good for running logs.
 

@@ -125,20 +125,32 @@ public class GuideActivity extends AutumnBaseActivity {
             if (!isQuote) {
                 flush(container, quote, true);
             }
-            if (line.isEmpty() || line.startsWith("#") || isQuote || isIcon || line.startsWith("- ")) {
+            if (line.isEmpty() || line.startsWith("#") || isQuote || isIcon || line.startsWith("- ")
+                    || line.startsWith("~ ")) {
                 flush(container, para, false);
             }
             if (line.isEmpty()) {
                 continue;
             }
 
-            if (line.startsWith("### ")) {
-                container.addView(heading(line.substring(4), 3));
-            } else if (line.startsWith("## ")) {
-                container.addView(heading(line.substring(3), 2));
-            } else if (line.startsWith("# ")) {
-                container.addView(heading(line.substring(2), 1));
-            } else if (isQuote) {
+            if (line.startsWith("#") || line.startsWith("~ ")) {
+                // Consecutive lines of the same kind make one view, a line apiece: a two-line
+                // heading, or a quotation with its attribution under it.
+                final String prefix = line.startsWith("### ") ? "### " : line.startsWith("## ") ? "## "
+                        : line.startsWith("# ") ? "# " : line.startsWith("~ ") ? "~ " : null;
+                if (prefix != null) {
+                    final StringBuilder joined = new StringBuilder(line.substring(prefix.length()));
+                    while (i + 1 < lines.size() && lines.get(i + 1).trim().startsWith(prefix)) {
+                        i++;
+                        joined.append('\n').append(lines.get(i).trim().substring(prefix.length()));
+                    }
+                    container.addView("~ ".equals(prefix) ? tagline(joined.toString())
+                            : heading(joined.toString(), prefix.length() - 1));
+                    continue;
+                }
+            }
+
+            if (isQuote) {
                 append(quote, line.substring(2));
             } else if (line.startsWith("- ")) {
                 container.addView(bullet(line.substring(2)));
@@ -190,6 +202,16 @@ public class GuideActivity extends AutumnBaseActivity {
                 level == 1 ? R.color.guide_title : R.color.guide_heading);
         t.setTypeface(t.getTypeface(), Typeface.BOLD);
         margins(t, 0, level == 1 ? 8 : level == 2 ? 30 : 20, 0, level == 3 ? 6 : 10);
+        return t;
+    }
+
+    /**
+     * A line set apart in the leaf's colour: the epigraph under the title. Italics, if wanted,
+     * are written into the line, so an attribution under a quotation can stay upright.
+     */
+    private TextView tagline(final String text) {
+        final TextView t = base(text, 16.5f, R.color.guide_tagline);
+        margins(t, 0, 2, 0, 14);
         return t;
     }
 
@@ -317,6 +339,9 @@ public class GuideActivity extends AutumnBaseActivity {
         // Single asterisks after the doubles are gone. Not touching a space on the inside, so a
         // lone asterisk in a sentence -- 5 * 3 -- stays an asterisk.
         out = out.replaceAll("\\*(?=\\S)(.+?)(?<=\\S)\\*", "<i>$1</i>");
+        // Only joined headings and taglines carry a newline; a paragraph's lines are joined
+        // with spaces before they get here.
+        out = out.replace("\n", "<br>");
         out = out.replaceAll("`(.+?)`", "<tt>$1</tt>");
         return out;
     }

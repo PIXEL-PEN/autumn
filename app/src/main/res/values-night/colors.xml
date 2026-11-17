@@ -118,6 +118,7 @@
     <color name="guide_callout_text">#E3EEF0</color>
     <color name="guide_callout_rule">#2BB3A8</color>
     <color name="guide_heading">#2BB3A8</color>
+    <color name="guide_tagline">#F0904F</color>
     <color name="guide_page_bg">#141D24</color>
     <color name="guide_title">#4FD1C5</color>
 
