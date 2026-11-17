@@ -47,7 +47,7 @@ android {
         buildConfigField "String", "BUILD_DATE", "\"${getBuildDate()}\""
         buildConfigField "String", "GITHASH", "\"${getGitHash}\""
 
-        setProperty("archivesBaseName", applicationId + "-v" + versionCode + "-" + versionName)
+        setProperty("archivesBaseName", "autumn-" + versionName + "-" + versionCode)
     }
 
     // No product flavors.
