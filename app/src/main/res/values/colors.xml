@@ -154,7 +154,7 @@
     <color name="guide_title">#005F73</color>
     <color name="guide_heading">#066367</color>
     <!-- The leaf's orange, taken darker and quieter so it reads on the pale page. -->
-    <color name="guide_tagline">#B5501A</color>
+    <color name="guide_tagline">#9E4516</color>
     <color name="guide_body">#2B3545</color>
     <color name="guide_callout_bg">#CDEBEC</color>
     <color name="guide_callout_text">#10343A</color>

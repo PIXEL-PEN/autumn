@@ -144,8 +144,12 @@ public class GuideActivity extends AutumnBaseActivity {
                         i++;
                         joined.append('\n').append(lines.get(i).trim().substring(prefix.length()));
                     }
+                    // A heading straight under the tagline sits closer to it than a section heading
+                    // sits to the text above: the two belong together, under the title.
+                    final boolean afterTagline = container.getChildCount() > 0
+                            && TAGLINE.equals(container.getChildAt(container.getChildCount() - 1).getTag());
                     container.addView("~ ".equals(prefix) ? tagline(joined.toString())
-                            : heading(joined.toString(), prefix.length() - 1));
+                            : heading(joined.toString(), prefix.length() - 1, afterTagline));
                     continue;
                 }
             }
@@ -196,12 +200,15 @@ public class GuideActivity extends AutumnBaseActivity {
      * right. Without it a "### " line fell through to the paragraph branch and was drawn as
      * body text with its hashes still attached.
      */
-    private TextView heading(final String text, final int level) {
+    private TextView heading(final String text, final int level, final boolean afterTagline) {
         final float size = level == 1 ? 24 : level == 2 ? 18 : 16.5f;
         final TextView t = base(text, size,
                 level == 1 ? R.color.guide_title : R.color.guide_heading);
         t.setTypeface(t.getTypeface(), Typeface.BOLD);
-        margins(t, 0, level == 1 ? 8 : level == 2 ? 30 : 20, 0, level == 3 ? 6 : 10);
+        // Tighter than body text: a heading that runs to two lines should read as one heading.
+        t.setLineSpacing(dp(1), 1f);
+        final int top = afterTagline ? 6 : level == 1 ? 8 : level == 2 ? 30 : 20;
+        margins(t, 0, top, 0, level == 3 ? 6 : 10);
         return t;
     }
 
@@ -210,10 +217,18 @@ public class GuideActivity extends AutumnBaseActivity {
      * are written into the line, so an attribution under a quotation can stay upright.
      */
     private TextView tagline(final String text) {
-        final TextView t = base(text, 16.5f, R.color.guide_tagline);
-        margins(t, 0, 2, 0, 14);
+        final TextView t = base("", 16.5f, R.color.guide_tagline);
+        // Every line after the first is the attribution, and set smaller than the quotation.
+        final int nl = text.indexOf('\n');
+        t.setText(Html.fromHtml(nl < 0 ? inline(text)
+                : inline(text.substring(0, nl)) + "<br><small>" + inline(text.substring(nl + 1)) + "</small>"));
+        t.setTag(TAGLINE);
+        margins(t, 0, 2, 0, 4);
         return t;
     }
+
+    /** Marks a tagline view, so the heading after it knows to sit close. */
+    private static final String TAGLINE = "tagline";
 
     private TextView body(final String text) {
         final TextView t = base(text, 16, R.color.guide_body);
