@@ -19,7 +19,7 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
          PLACEHOLDER: PIXEL-PEN until the legal or business name is confirmed.
          The flag is the emoji itself, written as the character: no drawable to maintain,
          and every Android version this app supports draws it. -->
-    <string name="app_copyright" translatable="false">Copyright © 2026 Tom S. Thomas, PIXEL-PEN, Vancouver, BC 🇨🇦</string>
+    <string name="app_copyright" translatable="false">Copyright © 2026 T.S. Thomas,(PIXEL-PEN), Vancouver, BC 🇨🇦</string>
     <!-- The feedback address. Shown as text and copied on tap, not opened as a mailto link:
          the app does not hand off to the network, and a copied address works with whatever
          mail the reader uses. -->
