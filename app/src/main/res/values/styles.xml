@@ -9,8 +9,12 @@
 -->
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <!-- The window shown while the app starts, before AutumnBaseActivity swaps in the real
+         theme. The app's own navy (the top and bottom bars) rather than near-black #222, so the
+         wait reads as the app opening, not as a blank screen. On Android 12 and later the
+         system draws the launcher icon on this colour. -->
     <style name="AppTheme.Unified.StartupFlash" parent="AppTheme.Unified">
-        <item name="android:windowBackground">@color/dark__background</item>
+        <item name="android:windowBackground">@color/primary</item>
     </style>
 
     <!--

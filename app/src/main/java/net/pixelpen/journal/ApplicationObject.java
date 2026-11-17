@@ -7,6 +7,7 @@
 #########################################################*/
 package net.pixelpen.journal;
 
+import android.os.Looper;
 import android.webkit.WebView;
 
 import androidx.multidex.MultiDexApplication;
@@ -63,9 +64,17 @@ public class ApplicationObject extends MultiDexApplication {
         _appSettings.applyAppTheme();
 
         // Per https://stackoverflow.com/a/54191884/4717438
-        try {
-            new WebView(getApplicationContext());
-        } catch (Exception ignored) {
-        }
+        //
+        // Deferred until the main thread first goes idle, which is after the first screen has
+        // drawn. Creating a WebView loads the whole browser engine, and done here it held up
+        // every cold start behind it: the dark starting window sat on screen for that long
+        // before anything of Autumn appeared. Nothing at startup needs it.
+        Looper.myQueue().addIdleHandler(() -> {
+            try {
+                new WebView(getApplicationContext());
+            } catch (Exception ignored) {
+            }
+            return false; // once
+        });
     }
 }
