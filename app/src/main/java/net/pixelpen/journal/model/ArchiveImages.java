@@ -3,9 +3,12 @@ package net.pixelpen.journal.model;
 import android.content.ContentResolver;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -159,11 +162,26 @@ public final class ArchiveImages {
                                    final File home, final int year, final String originalName)
             throws IOException {
         final File dir = yearFolder(home, year);
-        final Bitmap bitmap = decodeScaled(resolver, source);
+        final File dest = uniqueFile(dir, originalName);
+        writeScaled(() -> resolver.openInputStream(source), dest);
+        return dest;
+    }
+
+    /**
+     * Write a scaled copy of an image file to {@code dest}, as JPEG.
+     *
+     * <p>The editor's way in -- camera, gallery and file browser all end here -- so a picture is
+     * stored the same way whichever button brought it.
+     */
+    public static void writeScaled(final File source, final File dest) throws IOException {
+        writeScaled(() -> new FileInputStream(source), dest);
+    }
+
+    private static void writeScaled(final Source source, final File dest) throws IOException {
+        final Bitmap bitmap = decodeScaled(source);
         if (bitmap == null) {
             throw new IOException("Not an image this device can read");
         }
-        final File dest = uniqueFile(dir, originalName);
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(dest);
@@ -180,21 +198,28 @@ public final class ArchiveImages {
             }
             bitmap.recycle();
         }
-        return dest;
+    }
+
+    /** Somewhere an image can be read from, more than once. */
+    private interface Source {
+        InputStream open() throws IOException;
     }
 
     /**
-     * Read the image at no more than {@link #MAX_EDGE} on its longest side.
+     * Read the image at no more than {@link #MAX_EDGE} on its longest side, upright.
      *
      * <p>Measured first, then decoded with a sample size, so a 12-megapixel photo is never fully
      * loaded into memory just to be thrown away. Downscaling after a full decode is how image
      * handling runs a device out of memory.
+     *
+     * <p>Upright because many cameras store the pixels as the sensor saw them and record the
+     * turn in an EXIF tag. The JPEG written here carries no EXIF, so the turn has to be applied
+     * to the pixels or a portrait photo comes out lying on its side.
      */
-    private static Bitmap decodeScaled(final ContentResolver resolver, final Uri source)
-            throws IOException {
+    private static Bitmap decodeScaled(final Source source) throws IOException {
         final BitmapFactory.Options bounds = new BitmapFactory.Options();
         bounds.inJustDecodeBounds = true;
-        InputStream in = resolver.openInputStream(source);
+        InputStream in = source.open();
         if (in == null) {
             throw new IOException("Cannot read the chosen image");
         }
@@ -212,7 +237,7 @@ public final class ArchiveImages {
 
         final BitmapFactory.Options opts = new BitmapFactory.Options();
         opts.inSampleSize = sample;
-        in = resolver.openInputStream(source);
+        in = source.open();
         if (in == null) {
             throw new IOException("Cannot read the chosen image");
         }
@@ -227,19 +252,70 @@ public final class ArchiveImages {
         }
 
         // Sampling only halves, so the result is still up to twice the target; this brings it to
-        // the exact edge.
+        // the exact edge, and turns it upright in the same step.
+        final Matrix m = orientation(source);
         longest = Math.max(decoded.getWidth(), decoded.getHeight());
-        if (longest <= MAX_EDGE) {
+        if (longest > MAX_EDGE) {
+            final float ratio = (float) MAX_EDGE / longest;
+            m.postScale(ratio, ratio);
+        }
+        if (m.isIdentity()) {
             return decoded;
         }
-        final float ratio = (float) MAX_EDGE / longest;
-        final Bitmap scaled = Bitmap.createScaledBitmap(decoded,
-                Math.max(1, Math.round(decoded.getWidth() * ratio)),
-                Math.max(1, Math.round(decoded.getHeight() * ratio)), true);
-        if (scaled != decoded) {
+        final Bitmap out = Bitmap.createBitmap(decoded, 0, 0,
+                decoded.getWidth(), decoded.getHeight(), m, true);
+        if (out != decoded) {
             decoded.recycle();
         }
-        return scaled;
+        return out;
+    }
+
+    /** The turn recorded in the image's EXIF, as a matrix; identity if none or unreadable. */
+    private static Matrix orientation(final Source source) {
+        final Matrix m = new Matrix();
+        InputStream in = null;
+        try {
+            in = source.open();
+            if (in == null) {
+                return m;
+            }
+            final int o = new ExifInterface(in).getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (o) {
+                case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                    m.setScale(-1, 1);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    m.setRotate(180);
+                    break;
+                case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                    m.setScale(1, -1);
+                    break;
+                case ExifInterface.ORIENTATION_TRANSPOSE:
+                    m.setRotate(90);
+                    m.postScale(-1, 1);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    m.setRotate(90);
+                    break;
+                case ExifInterface.ORIENTATION_TRANSVERSE:
+                    m.setRotate(-90);
+                    m.postScale(-1, 1);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    m.setRotate(-90);
+                    break;
+                default:
+                    break;
+            }
+        } catch (final Exception ignored) {
+            // No EXIF, or none this device can read: leave the picture as it is.
+        } finally {
+            if (in != null) {
+                closeQuietly(in);
+            }
+        }
+        return m;
     }
 
     private static File uniqueFile(final File dir, final String originalName) {

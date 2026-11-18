@@ -43,9 +43,6 @@ import net.gsantner.opoc.wrapper.GsCallback;
 
 import java.io.File;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import java.io.FileOutputStream;
 
 
 public class AttachLinkOrFileDialog {
@@ -268,43 +265,29 @@ public class AttachLinkOrFileDialog {
     }
 
     private static File copyFileToAttachmentDir(final File attachment, final File attachmentDir) {
-        final File local = GsFileUtils.findNonConflictingDest(attachmentDir, attachment.getName());
         attachmentDir.mkdirs();
 
         if (attachment.getName().matches("(?i).+\\.(jpg|jpeg|png|webp)")) {
+            // Stored as JPEG, so named as one: a .png holding JPEG bytes is a file whose name lies.
+            final File local = GsFileUtils.findNonConflictingDest(attachmentDir,
+                    GsFileUtils.getFilenameWithoutExtension(attachment) + ".jpg");
             compressAndCopyImage(attachment, local);
-        } else {
-            GsFileUtils.copyFile(attachment, local);
+            return local;
         }
+        final File local = GsFileUtils.findNonConflictingDest(attachmentDir, attachment.getName());
+        GsFileUtils.copyFile(attachment, local);
 
         return local;
     }
 
     private static void compressAndCopyImage(File source, File dest) {
+        // The same scaling as every other way a picture enters the archive: 1024 on the long
+        // side, turned upright, decoded with sampling so a 50-megapixel photo cannot run the
+        // phone out of memory on the way.
         try {
-            Bitmap bitmap = BitmapFactory.decodeFile(source.getAbsolutePath());
-            if (bitmap == null) {
-                GsFileUtils.copyFile(source, dest);  // fallback
-                return;
-            }
-
-            // Scale down if larger than desired size
-            int maxDim = 1024;  // adjust max dimension as desired
-            int width = bitmap.getWidth();
-            int height = bitmap.getHeight();
-
-            if (width > maxDim || height > maxDim) {
-                float scale = Math.min((float) maxDim / width, (float) maxDim / height);
-                bitmap = Bitmap.createScaledBitmap(bitmap, Math.round(width * scale), Math.round(height * scale), true);
-            }
-
-            // Compress and save as JPEG at 80% quality
-            try (FileOutputStream out = new FileOutputStream(dest)) {
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            GsFileUtils.copyFile(source, dest);  // fallback
+            net.pixelpen.journal.model.ArchiveImages.writeScaled(source, dest);
+        } catch (final Exception e) {
+            GsFileUtils.copyFile(source, dest);  // fallback: keep the picture, full size
         }
     }
 
@@ -448,6 +431,15 @@ public class AttachLinkOrFileDialog {
 
             final String localPath = setupFileAttachment(textFormatId, attachment, currentFile);
 
+            // A camera photo arrives full size in the app's own Pictures folder. The scaled copy
+            // is in Images now, so the original is only taking up space.
+            final File cameraDir = activity.getExternalFilesDir(android.os.Environment.DIRECTORY_PICTURES);
+            if (cameraDir != null && cameraDir.equals(attachment.getParentFile())
+                    && !GsTextUtils.isNullOrEmpty(localPath)) {
+                //noinspection ResultOfMethodCallIgnored
+                attachment.delete();
+            }
+
             insertLink.callback(title, localPath);
         };
 
@@ -526,7 +518,13 @@ public class AttachLinkOrFileDialog {
                     final GsFileBrowserOptions.SelectionListener fsListener = new GsFileBrowserOptions.SelectionListenerAdapter() {
                         @Override
                         public void onFsViewerSelected(final String request, final File file, final Integer lineNumber) {
-                            setFields.callback(file);
+                            if (action == InsertType.IMAGE_BROWSE) {
+                                // Like the gallery: copied into Images and scaled, not linked
+                                // where it lies, where a later tidy-up would break the note.
+                                insertFileLink.callback(file.getAbsolutePath());
+                            } else {
+                                setFields.callback(file);
+                            }
                         }
 
                         @Override

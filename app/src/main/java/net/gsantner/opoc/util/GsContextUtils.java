@@ -1773,6 +1773,11 @@ public class GsContextUtils {
     public void extractResultFromActivityResult(final Activity context, final int requestCode, final int resultCode, final Intent intent) {
         switch (requestCode) {
             case REQUEST_CAMERA_PICTURE: {
+                if (resultCode != Activity.RESULT_OK && _lastCameraPictureFilepath != null) {
+                    // Cancelled: the empty file made for the camera to write into is left over.
+                    //noinspection ResultOfMethodCallIgnored
+                    new File(_lastCameraPictureFilepath).delete();
+                }
                 sendPathCallback(resultCode == Activity.RESULT_OK ? _lastCameraPictureFilepath : null);
                 break;
             }

@@ -64,7 +64,7 @@ The pencil and eye in the top bar switch between the two at any time.
 While you write, a row of buttons sits under the text. Swipe it sideways for
 more. The ones a journal uses most:
 
-@ic_image_black_24dp **Picture.** Choose an image from your albums. It is shown in the note and kept in the archive's `Images` folder.
+@ic_image_black_24dp **Picture.** Take a photo, or choose one from your albums or files. Long-press to go straight to the camera. It is shown in the note and kept in the archive's `Images` folder, at 1024 pixels on the long side: plenty for a picture beside the words, and small enough to keep for decades.
 
 @ic_access_time_black_24dp **Date and time.** Tap to choose a format; long-press to insert the last one used. Good for running logs.
 
