@@ -22,8 +22,8 @@ android {
 
     defaultConfig {
         applicationId "net.pixelpen.journal"
-        versionCode 1  // Plain counter: add 1 for every release, alongside versionName.
-        versionName "1.0"
+        versionCode 2  // Plain counter: add 1 for every release, alongside versionName.
+        versionName "1.0.1"
 
         minSdkVersion rootProject.ext.version_minSdk
         targetSdkVersion rootProject.ext.version_compileSdk

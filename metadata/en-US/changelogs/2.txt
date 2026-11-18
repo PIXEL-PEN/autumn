@@ -1,0 +1,5 @@
+Pictures: camera or gallery, stored at 1024 px and turned the right way up. Long-press the picture button for the camera.
+
+Attach: a paperclip that opens Android's file picker. Files are copied into the archive, up to 10 MB each.
+
+The microphone records straight away. The divider button never turns text into a heading. A clearer default order for the action bar. Guide updated.

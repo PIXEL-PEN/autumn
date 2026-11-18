@@ -8,7 +8,7 @@ A journalling and archiving app for Android, built for one particular way memory
 
 Most people keep the events and lose the order. You know it was a good year and you could list most of what was in it, but not what came before what — and given long enough the whole thing settles into an undifferentiated *back then*. Autumn is not a planner and not a reminder app. It takes a titled note, files it under the day it belongs to, and gives the sequence back.
 
-**Status:** 1.0, the first release. In daily use, still young.
+**Status:** 1.0.1. In daily use, still young.
 
 **Install:** from [Releases](https://github.com/PIXEL-PEN/autumn/releases), or F-Droid once it is listed there.
 

@@ -6,7 +6,35 @@ See LICENSE.txt for the attribution that comes with that.
 
 Nothing in the app reads this file. It is a record for the repository.
 
-## Unreleased — the rebuild
+## 1.0.1 — 18 November 2026
+
+### Pictures
+- Camera, gallery and the Year screen all store a picture the same way:
+  1024 px on the long side, turned upright from its EXIF orientation, decoded
+  with sampling so a large photo cannot run the phone out of memory.
+- The camera's full-size original is deleted once the copy is made.
+- A photo taken with long-press on the picture button was sometimes never
+  inserted; the callback waiting for it is now held until it arrives.
+- The Insert Image dialog is down to two choices, camera or gallery.
+
+### Attach
+- The link button is now Attach, with a paperclip. It opens Android's file
+  picker directly; Markor's file browser and the Insert link dialog are gone.
+- Files from outside the archive are copied into `Files/<year>/` and linked
+  relatively. Anything over 10 MB that is not a picture is turned away.
+- The microphone records directly.
+
+### Editor
+- The divider button adds a blank line above the dashes when it is used under
+  text, so it can no longer turn that text into a heading.
+- The default action bar has a real order: rotate, bullet list, date and time,
+  picture, divider, attach, bold, headings. Saved orders are untouched.
+
+### Guide and repository
+- Guide: new icon rows, the picture and attachment rules, a closing curl.
+- Project URLs point at `PIXEL-PEN/autumn`.
+
+## 1.0 — the rebuild
 
 92 commits since `markor-plus-v1.2.6`. Markor is a general-purpose text editor;
 Autumn is a journal that happens to store plain Markdown. Most of the work has
