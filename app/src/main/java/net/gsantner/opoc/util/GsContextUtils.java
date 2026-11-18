@@ -190,6 +190,7 @@ public class GsContextUtils {
     public final static int REQUEST_STORAGE_PERMISSION_M = 50004;
     public final static int REQUEST_STORAGE_PERMISSION_R = 50005;
     public final static int REQUEST_RECORD_AUDIO = 50006;
+    public final static int REQUEST_OPEN_DOCUMENT = 50007;
     private final static int BLINK_ANIMATOR_TAG = -1206813720;
 
     public static int TEXTFILE_OVERWRITE_MIN_TEXT_LENGTH = 2;
@@ -199,6 +200,8 @@ public class GsContextUtils {
     // so a weak reference could be collected in the meantime -- the photo is taken and then
     // never inserted. It is cleared after its one use, so at most one is ever held.
     protected static GsCallback.a1<String> _receivePathCallback = null;
+    protected static GsCallback.a1<Long> _openDocumentTooLarge = null;
+    protected static long _openDocumentMaxBytes = Long.MAX_VALUE;
     protected static String m_chooserTitle = "➥";
 
 
@@ -1752,6 +1755,100 @@ public class GsContextUtils {
         }
     }
 
+    /**
+     * Pick a file with Android's own picker (the one with Recent, Downloads and Drive), and get
+     * back a path to it.
+     *
+     * <p>A file on the phone's storage comes back as its real path, so a file already inside the
+     * archive can be linked where it is. Anything else -- a cloud file, a provider with no path
+     * -- is copied into the cache first, and the caller copies it on from there.
+     *
+     * <p>Files over {@code maxBytes} are not copied at all: {@code tooLarge} gets their size
+     * instead, so a video is turned away before it is read, not after.
+     */
+    public void requestOpenDocument(final Activity activity, final String[] mimeTypes, final long maxBytes,
+                                    final GsCallback.a1<String> callback, final GsCallback.a1<Long> tooLarge) {
+        final Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT)
+                .addCategory(Intent.CATEGORY_OPENABLE)
+                .setType("*/*")
+                .putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
+        try {
+            activity.startActivityForResult(intent, REQUEST_OPEN_DOCUMENT);
+            setPathCallback(callback);
+            _openDocumentTooLarge = tooLarge;
+            _openDocumentMaxBytes = maxBytes;
+        } catch (Exception ex) {
+            Toast.makeText(activity, "No file picker available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /** The real file behind a picker result on the phone's own storage, or null. */
+    private static File localFileForDocument(final Uri uri) {
+        try {
+            if (!"com.android.externalstorage.documents".equals(uri.getAuthority())) {
+                return null;
+            }
+            final String id = android.provider.DocumentsContract.getDocumentId(uri);
+            if (id == null || !id.startsWith("primary:")) {
+                return null;
+            }
+            final File f = new File(Environment.getExternalStorageDirectory(), id.substring("primary:".length()));
+            return (f.isFile() && f.canRead()) ? f : null;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private void receiveOpenDocument(final Context context, final Uri uri) {
+        final GsCallback.a1<Long> tooLarge = _openDocumentTooLarge;
+        final long max = _openDocumentMaxBytes;
+        _openDocumentTooLarge = null;
+        _openDocumentMaxBytes = Long.MAX_VALUE;
+
+        String name = null;
+        long size = -1;
+        try (Cursor c = context.getContentResolver().query(uri,
+                new String[]{OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE}, null, null, null)) {
+            if (c != null && c.moveToFirst()) {
+                name = c.getString(0);
+                if (!c.isNull(1)) {
+                    size = c.getLong(1);
+                }
+            }
+        } catch (Exception ignored) {
+        }
+
+        final File local = localFileForDocument(uri);
+        if (size < 0 && local != null) {
+            size = local.length();
+        }
+        // Pictures are let through whatever their size: they are scaled down on the way in.
+        final boolean isPicture = name != null && name.matches("(?i).+\\.(jpg|jpeg|png|webp|gif|bmp)");
+        if (size > max && !isPicture) {
+            _receivePathCallback = null;
+            if (tooLarge != null) {
+                tooLarge.callback(size);
+            }
+            return;
+        }
+
+        if (local != null) {
+            sendPathCallback(local.getAbsolutePath());
+            return;
+        }
+
+        if (GsTextUtils.isNullOrEmpty(name)) {
+            name = "attachment";
+        }
+        name = name.replaceAll("[/\\\\:*?\"<>|]", "_");
+        final File dir = new File(context.getCacheDir(), "picked");
+        //noinspection ResultOfMethodCallIgnored
+        dir.mkdirs();
+        final File temp = GsFileUtils.findNonConflictingDest(dir, name);
+        GsFileUtils.copyUriToFile(context, uri, temp);
+        sendPathCallback(temp.isFile() ? temp.getAbsolutePath() : null);
+    }
+
     private void setPathCallback(final GsCallback.a1<String> callback) {
         _receivePathCallback = callback;
     }
@@ -1831,6 +1928,14 @@ public class GsContextUtils {
 
                     // Return path to picture on success, else null
                     sendPathCallback(picturePath);
+                }
+                break;
+            }
+            case REQUEST_OPEN_DOCUMENT: {
+                if (resultCode == Activity.RESULT_OK && intent != null && intent.getData() != null) {
+                    receiveOpenDocument(context, intent.getData());
+                } else {
+                    _receivePathCallback = null;
                 }
                 break;
             }

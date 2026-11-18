@@ -10,7 +10,6 @@
 package net.pixelpen.journal.frontend;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Editable;
 import android.view.View;
@@ -23,21 +22,16 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 
 import net.pixelpen.journal.ApplicationObject;
 import net.pixelpen.journal.R;
 import net.pixelpen.journal.format.FormatRegistry;
 import net.pixelpen.journal.format.markdown.MarkdownActionButtons;
 import net.pixelpen.journal.format.wikitext.WikitextLinkResolver;
-import net.pixelpen.journal.frontend.filebrowser.AutumnFileBrowserFactory;
 import net.pixelpen.journal.frontend.textview.TextViewUtils;
 import net.pixelpen.journal.model.AppSettings;
 import net.pixelpen.journal.util.AutumnContextUtils;
 import net.gsantner.opoc.format.GsTextUtils;
-import net.gsantner.opoc.frontend.filebrowser.GsFileBrowserListAdapter;
-import net.gsantner.opoc.frontend.filebrowser.GsFileBrowserOptions;
 import net.gsantner.opoc.util.GsFileUtils;
 import net.gsantner.opoc.wrapper.GsCallback;
 
@@ -219,30 +213,6 @@ public class AttachLinkOrFileDialog {
             case LINK_SEARCH:
             default: {
                 return getLinkFormat(textFormatId);
-            }
-        }
-    }
-
-    private static GsCallback.b2<Context, File> getFilterForAction(final InsertType action) {
-        switch (action) {
-            case IMAGE_CAMERA:
-            case IMAGE_GALLERY:
-            case IMAGE_EDIT:
-            case IMAGE_DIALOG:
-            case IMAGE_BROWSE: {
-                return AutumnFileBrowserFactory.IsMimeImage;
-            }
-            case AUDIO_RECORDING:
-            case AUDIO_DIALOG:
-            case AUDIO_BROWSE: {
-                return AutumnFileBrowserFactory.IsMimeAudio;
-            }
-            case LINK_DIALOG:
-            case LINK_BROWSE:
-            case LINK_SPECIAL:
-            case LINK_SEARCH:
-            default: {
-                return null;
             }
         }
     }
@@ -453,11 +423,14 @@ public class AttachLinkOrFileDialog {
 
             final String localPath = setupFileAttachment(textFormatId, attachment, currentFile);
 
-            // A camera photo arrives full size in the app's own Pictures folder. The scaled copy
-            // is in Images now, so the original is only taking up space.
+            // A camera photo arrives full size in the app's own Pictures folder, and a picked
+            // cloud file as a copy in the cache. The archive has its own copy now, so these are
+            // only taking up space.
             final File cameraDir = activity.getExternalFilesDir(android.os.Environment.DIRECTORY_PICTURES);
-            if (cameraDir != null && cameraDir.equals(attachment.getParentFile())
-                    && !GsTextUtils.isNullOrEmpty(localPath)) {
+            final File pickedDir = new File(activity.getCacheDir(), "picked");
+            final File from = attachment.getParentFile();
+            if (from != null && !GsTextUtils.isNullOrEmpty(localPath)
+                    && (from.equals(cameraDir) || from.equals(pickedDir))) {
                 //noinspection ResultOfMethodCallIgnored
                 attachment.delete();
             }
@@ -536,31 +509,18 @@ public class AttachLinkOrFileDialog {
             case LINK_BROWSE:
             case IMAGE_BROWSE:
             case AUDIO_BROWSE: {
-                if (activity instanceof AppCompatActivity && nameEdit != null && pathEdit != null) {
-                    final GsFileBrowserOptions.SelectionListener fsListener = new GsFileBrowserOptions.SelectionListenerAdapter() {
-                        @Override
-                        public void onFsViewerSelected(final String request, final File file, final Integer lineNumber) {
-                            if (file.isFile()) {
-                                // Copied into the archive (pictures scaled into Images, other
-                                // files into Files), not linked where it lies, where a later
-                                // tidy-up -- or a new phone -- would break the note. A file
-                                // already inside the archive is linked in place.
-                                insertFileLink.callback(file.getAbsolutePath());
-                            } else {
-                                setFields.callback(file);
-                            }
-                        }
-
-                        @Override
-                        public void onFsViewerConfig(GsFileBrowserOptions.Options dopt) {
-                            dopt.startFolder = currentFile.getParentFile();
-                            dopt.rootFolder = GsFileBrowserListAdapter.VIRTUAL_STORAGE_ROOT;
-                        }
-                    };
-
-                    final FragmentManager f = ((AppCompatActivity) activity).getSupportFragmentManager();
-                    AutumnFileBrowserFactory.showFileDialog(fsListener, f, activity, getFilterForAction(action));
-                }
+                // Android's own file picker, not Markor's file browser: the picker is the one
+                // people know from every other app, with Recent, Downloads and Drive at hand.
+                // The file is copied into the archive (pictures scaled into Images, the rest into
+                // Files) and linked relatively; one already inside the archive is linked in place.
+                final String[] mimes = (action == InsertType.AUDIO_BROWSE) ? new String[]{"audio/*"}
+                        : (action == InsertType.IMAGE_BROWSE) ? new String[]{"image/*"}
+                        : new String[]{"*/*"};
+                cu.requestOpenDocument(activity, mimes, MAX_ATTACHMENT_BYTES, insertFileLink,
+                        size -> Toast.makeText(activity, activity.getString(R.string.attachment_too_large,
+                                        GsFileUtils.getReadableFileSize(size, true),
+                                        GsFileUtils.getReadableFileSize(MAX_ATTACHMENT_BYTES, true)),
+                                Toast.LENGTH_LONG).show());
                 break;
             }
             case LINK_SPECIAL: {
