@@ -150,8 +150,9 @@ Below those, every month lists its entries, newest first. Tap one to open it.
 
 ### One category, one year
 
-The **dropdown** at the top filters the whole year to a single category, and this
-is probably the most useful thing the app does.
+@ic_guide_dropdown **The dropdown** at the top filters the whole year to one category.
+
+It is probably the most useful thing the app does.
 
 Pick one and scroll. A year of it fits in a few seconds of thumb, and what you get
 is not a list so much as a shape: which months were busy, which were empty, where
@@ -219,25 +220,26 @@ Its parts are simple:
 
 ### Going backwards
 
-@ic_undo_black_24dp **Start with one phrase for the whole year.**
+@ic_guide_rewind **Start with one phrase for the whole year.**
 
-One word is often enough to define a
-year: 2020 is Covid, and you need nothing else for it to come back. Put a phrase
-against a year and you will find it starts pulling things with it: the graduation
-year, the first car, the year you fell in love, the year you moved.
+One word is often enough to define a year: 2020 is Covid, and you need nothing
+else for it to come back. Put a phrase against a year and you will find it starts
+pulling things with it: the graduation year, the first car, the year you fell in
+love, the year you moved.
 
 Then add lines as they arrive. They will not arrive in order and they will not
 arrive all at once. Go through photographs. Go through the drawer of things you
 kept. Ask relatives, who remember different years from you and will contradict
 you usefully.
 
-Expect enormous gaps, that's normal. Four lines in a year is not an empty year,
-it is four anchors, and the next thing you remember will attach itself to one of
-them.
+@ic_guide_gaps **Expect enormous gaps, that's normal.**
 
-A lifelog is built and rebuilt over years. It is
-never finished, which is the point: there is always a rainy afternoon's work in
-it, and it is better every time you come back.
+Four lines in a year is not an empty year, it is four anchors, and the next
+thing you remember will attach itself to one of them.
+
+A lifelog is built and rebuilt over years. It is never finished, which is the
+point: there is always a rainy afternoon's work in it, and it is better every
+time you come back.
 
 ### Going forwards
 
@@ -278,3 +280,5 @@ point of storing it this way.
 **Back up archive**, in the overflow menu, copies the whole archive into a single
 zip, to anywhere you choose. **Export html archive** turns it into web pages,
 zipped, for reading on a computer.
+
+@@ic_guide_flourish

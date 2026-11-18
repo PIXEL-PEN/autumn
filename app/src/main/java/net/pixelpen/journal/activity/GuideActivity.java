@@ -118,6 +118,7 @@ public class GuideActivity extends AutumnBaseActivity {
 
             final boolean isQuote = line.startsWith("> ");
             final boolean isIcon = line.matches("@=?[A-Za-z_][A-Za-z0-9_]*(\\s.*)?");
+            final boolean isOrnament = line.matches("@@[A-Za-z_][A-Za-z0-9_]*");
 
             // A wrapped paragraph is one view, and so is a wrapped callout. Both only end
             // when something else starts, which is why they are flushed here rather than
@@ -125,7 +126,8 @@ public class GuideActivity extends AutumnBaseActivity {
             if (!isQuote) {
                 flush(container, quote, true);
             }
-            if (line.isEmpty() || line.startsWith("#") || isQuote || isIcon || line.startsWith("- ")
+            if (line.isEmpty() || line.startsWith("#") || isQuote || isIcon || isOrnament
+                    || line.startsWith("- ")
                     || line.startsWith("~ ")) {
                 flush(container, para, false);
             }
@@ -165,6 +167,11 @@ public class GuideActivity extends AutumnBaseActivity {
                 container.addView(bullet(line.substring(2)));
             } else if (isIcon) {
                 container.addView(iconRow(line.substring(1)));
+            } else if (isOrnament) {
+                final View o = ornament(line.substring(2));
+                if (o != null) {
+                    container.addView(o);
+                }
             } else {
                 append(para, line);
             }
@@ -358,6 +365,29 @@ public class GuideActivity extends AutumnBaseActivity {
      * aside. It was a full-width panel with a teal spine, which on the pale page was easy to
      * take for part of the text.
      */
+    /**
+     * {@code @@name}: a drawable alone on its line, centred, in the tagline's colour. An ending
+     * mark rather than an icon, so no chip behind it.
+     */
+    private View ornament(final String name) {
+        @SuppressWarnings("DiscouragedApi")
+        final int id = getResources().getIdentifier(name, "drawable", getPackageName());
+        if (id == 0) {
+            return null;
+        }
+        final ImageView v = new ImageView(this);
+        v.setImageResource(id);
+        v.setImageTintList(ColorStateList.valueOf(
+                ContextCompat.getColor(this, R.color.guide_tagline)));
+        v.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                (int) dp(48), (int) dp(16));
+        lp.gravity = Gravity.CENTER_HORIZONTAL;
+        lp.setMargins(0, (int) dp(28), 0, (int) dp(20));
+        v.setLayoutParams(lp);
+        return v;
+    }
+
     private View callout(final String text) {
         final LinearLayout box = new LinearLayout(this);
         box.setOrientation(LinearLayout.HORIZONTAL);

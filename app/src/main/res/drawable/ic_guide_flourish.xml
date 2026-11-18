@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Guide only: the curl at the very end of the Guide. A wave with a turned-in curl at each
+     end, drawn as one stroke weight so it reads as an ornament rather than an icon. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="16dp"
+    android:viewportWidth="48"
+    android:viewportHeight="16">
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="1.6"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M10,8C16,2 20,2 24,8C28,14 32,14 38,8M10,8C7,11 3,9 4,6C5,3.5 8,4.5 7.5,6.5M38,8C41,5 45,7 44,10C43,12.5 40,11.5 40.5,9.5" />
+</vector>
