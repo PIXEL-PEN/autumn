@@ -68,7 +68,9 @@ more. The ones a journal uses most:
 
 @ic_access_time_black_24dp **Date and time.** Tap to choose a format; long-press to insert the last one used. Good for running logs.
 
-@ic_image_black_24dp **Picture.** Take a photo, or choose one from your albums or files. Long-press to go straight to the camera. It is shown in the note and kept in the archive's `Images` folder, at 1024 pixels on the long side: plenty for a picture beside the words, and small enough to keep for decades.
+@ic_image_black_24dp **Picture.** Take a photo, or choose one from your albums or files. Long-press for the camera.
+
+@ic_more_horiz_black_24dp **Divider.** A line across the note, between one entry and the next.
 
 @ic_format_bold_black_24dp **Bold.** *Italic* and strikethrough are further along the row.
 
@@ -90,6 +92,10 @@ order**.
 Pictures live in one place, `Images`, organised by year, and attachments in
 `Files`. It does not matter which screen you add a picture from: it goes to the
 same place, so nothing is scattered.
+
+Each picture is kept at 1024 pixels on the long side: plenty beside the words,
+and small enough to keep for decades. A photo taken from Autumn goes straight
+into the journal, not into your albums.
 
 Tap a thumbnail anywhere to see it full screen, and swipe to move between
 pictures.

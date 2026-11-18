@@ -68,6 +68,7 @@ public class MarkdownActionButtons extends ActionButtonBase {
                 new ActionItem(R.string.abid_common_unordered_list_char, R.drawable.ic_list_black_24dp, R.string.unordered_list),
                 new ActionItem(R.string.abid_common_time, R.drawable.ic_access_time_black_24dp, R.string.date_and_time),
                 new ActionItem(R.string.abid_common_insert_image, R.drawable.ic_image_black_24dp, R.string.insert_image),
+                new ActionItem(R.string.abid_markdown_horizontal_line, R.drawable.ic_more_horiz_black_24dp, R.string.horizontal_line),
                 new ActionItem(R.string.abid_markdown_bold, R.drawable.ic_format_bold_black_24dp, R.string.bold),
                 new ActionItem(R.string.abid_markdown_h1, R.drawable.format_header_1, R.string.heading_1),
                 new ActionItem(R.string.abid_markdown_h2, R.drawable.format_header_2, R.string.heading_2),
@@ -80,7 +81,6 @@ public class MarkdownActionButtons extends ActionButtonBase {
                 new ActionItem(R.string.abid_common_accordion, R.drawable.ic_arrow_drop_down_black_24dp, R.string.accordion),
                 new ActionItem(R.string.abid_common_insert_link, R.drawable.ic_link_black_24dp, R.string.insert_link),
                 new ActionItem(R.string.abid_common_insert_audio, R.drawable.ic_keyboard_voice_black_24dp, R.string.audio),
-                new ActionItem(R.string.abid_markdown_horizontal_line, R.drawable.ic_more_horiz_black_24dp, R.string.horizontal_line),
                 new ActionItem(R.string.abid_common_indent, R.drawable.ic_format_indent_increase_black_24dp, R.string.indent),
                 new ActionItem(R.string.abid_common_deindent, R.drawable.ic_format_indent_decrease_black_24dp, R.string.deindent),
                 new ActionItem(R.string.abid_markdown_code_inline, R.drawable.ic_code_black_24dp, R.string.inline_code),
@@ -139,7 +139,20 @@ public class MarkdownActionButtons extends ActionButtonBase {
                 return true;
             }
             case R.string.abid_markdown_horizontal_line: {
-                _hlEditor.insertOrReplaceTextOnCursor("----\n");
+                // A dash line straight under text is not a divider in markdown: it turns that text
+                // into a heading. So the divider always gets a blank line above it, and starts on
+                // a line of its own.
+                final CharSequence text = _hlEditor.getText();
+                final int at = (text == null) ? 0 : Math.max(0, TextViewUtils.getSelection(text)[0]);
+                String before = "";
+                if (text != null && at > 0) {
+                    if (text.charAt(at - 1) != '\n') {
+                        before = "\n\n";      // mid-line: end it, then a blank line
+                    } else if (at > 1 && text.charAt(at - 2) != '\n') {
+                        before = "\n";         // under a line of text: add the blank line
+                    }
+                }
+                _hlEditor.insertOrReplaceTextOnCursor(before + "----\n");
                 return true;
             }
             case R.string.abid_markdown_table_insert_columns: {
