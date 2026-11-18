@@ -69,7 +69,7 @@ more. The ones a journal uses most:
 
 @ic_access_time_black_24dp **Date and time.** Tap to choose a format; long-press to insert the last one used. Good for running logs.
 
-@ic_image_black_24dp **Picture.** Take a photo, or choose one from your albums or files. Long-press for the camera.
+@ic_image_black_24dp **Picture.** Take a photo, or choose one from your albums. Long-press for the camera.
 
 @ic_more_horiz_black_24dp **Divider.** A line across the note, between one entry and the next.
 

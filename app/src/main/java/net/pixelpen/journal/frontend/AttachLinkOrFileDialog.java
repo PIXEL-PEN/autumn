@@ -144,6 +144,10 @@ public class AttachLinkOrFileDialog {
         // Setup all the various choices
         final InsertType browseType, okType;
         if (action == IMAGE_ACTION) {
+            // Pictures come from the camera or the gallery. The file browser here was Markor's,
+            // showing its own view of the storage, and anything that is not a picture belongs
+            // to Attach, not here.
+            buttonBrowseFilesystem.setVisibility(View.GONE);
             buttonPictureCamera.setVisibility(View.VISIBLE);
             buttonPictureGallery.setVisibility(View.VISIBLE);
             buttonPictureEdit.setVisibility(View.VISIBLE);
