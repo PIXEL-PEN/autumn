@@ -26,13 +26,13 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="app_feedback_email" translatable="false">autumn@spokenfor.ca</string>
     <!-- Our project, not upstream's. These pointed at gsantner/markor's discussion board, which
          sent this fork's bug reports to the Markor maintainer. -->
-    <string name="app_community_url" translatable="false">https://github.com/PIXEL-PEN/markor/discussions</string>
-    <string name="app_bugreport_url" translatable="false">https://github.com/PIXEL-PEN/markor/issues</string>
-    <string name="app_translate_url" translatable="false">https://github.com/PIXEL-PEN/markor/discussions</string>
+    <string name="app_community_url" translatable="false">https://github.com/PIXEL-PEN/autumn/discussions</string>
+    <string name="app_bugreport_url" translatable="false">https://github.com/PIXEL-PEN/autumn/issues</string>
+    <string name="app_translate_url" translatable="false">https://github.com/PIXEL-PEN/autumn/discussions</string>
 
-    <string name="app_web_url" translatable="false">https://github.com/PIXEL-PEN/markor</string>
+    <string name="app_web_url" translatable="false">https://github.com/PIXEL-PEN/autumn</string>
     <string name="sync_client_support_issue_url" translatable="false">https://github.com/gsantner/markor/discussions/1381</string>
-    <string name="app_source_code_url" translatable="false">https://github.com/PIXEL-PEN/markor</string>
+    <string name="app_source_code_url" translatable="false">https://github.com/PIXEL-PEN/autumn</string>
     <string name="huuid" translatable="false">hUUID</string>
     <string name="embed_binary" translatable="false">Embed binary</string>
     <string name="actionbutton" translatable="false">ActionButton</string>
@@ -74,7 +74,7 @@ work. If not, see <https://creativecommons.org/publicdomain/zero/1.0/>.
     <string name="copyright_license_text_official" translatable="false"><![CDATA[
         ### Copyright © 2025-2026
         **PIXEL-PEN**
-        \n[Source code](https://github.com/PIXEL-PEN/markor)
+        \n[Source code](https://github.com/PIXEL-PEN/autumn)
         \n---
         \n**A modified fork of Markor**
         \nThis app is based on Markor and has been modified. It is not affiliated with,
