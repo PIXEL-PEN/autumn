@@ -83,7 +83,7 @@ more. The ones a journal uses most:
 
 @ic_arrow_drop_down_black_24dp **Fold.** A section that stays closed in reading mode until tapped, like *Why Autumn?* at the top of this guide.
 
-@ic_link_black_24dp **Attach.** A file, copied into the archive's `Files` folder and linked from the note.
+@ic_attach_file_black_24dp **Attach.** A file from your phone or Drive, copied into the archive's `Files` folder and linked from the note.
 
 The order of the row is yours to change: **Settings → Editing → Action button
 order**.

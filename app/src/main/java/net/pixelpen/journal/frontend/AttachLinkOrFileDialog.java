@@ -502,7 +502,7 @@ public class AttachLinkOrFileDialog {
             }
             case AUDIO_RECORDING: {
                 if (!cu.requestAudioRecording(activity, insertFileLink)) {
-                    Toast.makeText(activity, "❌", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity, R.string.no_voice_recorder, Toast.LENGTH_LONG).show();
                 }
                 break;
             }
@@ -540,6 +540,39 @@ public class AttachLinkOrFileDialog {
                 }
             }
         }
+    }
+
+    /** Picture: camera or gallery, and nothing else to fill in. */
+    public static void showPictureChoice(
+            final Activity activity,
+            final int textFormatId,
+            final Editable edit,
+            final File currentFile
+    ) {
+        final String[] choices = {
+                activity.getString(R.string.camera_picture),
+                activity.getString(R.string.gallery_picture)};
+        new AlertDialog.Builder(activity, R.style.Theme_AppCompat_DayNight_Dialog_Rounded)
+                .setTitle(R.string.insert_image)
+                .setItems(choices, (d, which) -> {
+                    if (which == 0) {
+                        insertCameraPhoto(activity, textFormatId, edit, currentFile);
+                    } else {
+                        insertGalleryPhoto(activity, textFormatId, edit, currentFile);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    /** Attach: straight to Android's file picker; the file is copied in and linked. */
+    public static void insertAttachment(
+            final Activity activity,
+            final int textFormatId,
+            final Editable edit,
+            final File currentFile
+    ) {
+        fetchAndInsertItem(InsertType.LINK_BROWSE, textFormatId, activity, edit, currentFile, null, null);
     }
 
     public static void insertCameraPhoto(

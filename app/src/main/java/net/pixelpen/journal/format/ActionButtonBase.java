@@ -652,16 +652,19 @@ public abstract class ActionButtonBase {
                 _hlEditor.insertOrReplaceTextOnCursor("<details markdown='1'><summary>" + rstr(R.string.expand_collapse) + "</summary>\n" + HighlightingEditor.PLACE_CURSOR_HERE_TOKEN + "\n\n</details>");
                 return true;
             }
+            // One way in for each kind of thing, and no dialog full of Markor's options: the
+            // microphone records, Attach goes straight to Android's file picker, and Picture
+            // asks only camera or gallery.
             case R.string.abid_common_insert_audio: {
-                AttachLinkOrFileDialog.showInsertImageOrLinkDialog(AttachLinkOrFileDialog.AUDIO_ACTION, _document.getFormat(), _activity, text, _document.file);
+                AttachLinkOrFileDialog.insertAudioRecording(_activity, _document.getFormat(), text, _document.file);
                 return true;
             }
             case R.string.abid_common_insert_link: {
-                AttachLinkOrFileDialog.showInsertImageOrLinkDialog(AttachLinkOrFileDialog.FILE_OR_LINK_ACTION, _document.getFormat(), _activity, text, _document.file);
+                AttachLinkOrFileDialog.insertAttachment(_activity, _document.getFormat(), text, _document.file);
                 return true;
             }
             case R.string.abid_common_insert_image: {
-                AttachLinkOrFileDialog.showInsertImageOrLinkDialog(AttachLinkOrFileDialog.IMAGE_ACTION, _document.getFormat(), _activity, text, _document.file);
+                AttachLinkOrFileDialog.showPictureChoice(_activity, _document.getFormat(), text, _document.file);
                 return true;
             }
             case R.string.abid_common_ordered_list_renumber: {
@@ -804,10 +807,6 @@ public abstract class ActionButtonBase {
             }
             case R.string.abid_common_insert_audio: {
                 AttachLinkOrFileDialog.insertAudioRecording(_activity, _document.getFormat(), _hlEditor.getText(), _document.file);
-                return true;
-            }
-            case R.string.abid_common_insert_link: {
-                AttachLinkOrFileDialog.insertGalleryPhoto(_activity, _document.getFormat(), _hlEditor.getText(), _document.file);
                 return true;
             }
             case R.string.abid_common_insert_image: {
