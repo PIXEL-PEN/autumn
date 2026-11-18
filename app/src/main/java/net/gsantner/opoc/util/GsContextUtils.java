@@ -195,7 +195,10 @@ public class GsContextUtils {
     public static int TEXTFILE_OVERWRITE_MIN_TEXT_LENGTH = 2;
     protected static Pair<File, List<Pair<String, String>>> m_cacheLastExtractFileMetadata;
     protected static String _lastCameraPictureFilepath = null;
-    protected static WeakReference<GsCallback.a1<String>> _receivePathCallback = null;
+    // Held strongly. Nothing else keeps the callback alive while the camera or gallery is open,
+    // so a weak reference could be collected in the meantime -- the photo is taken and then
+    // never inserted. It is cleared after its one use, so at most one is ever held.
+    protected static GsCallback.a1<String> _receivePathCallback = null;
     protected static String m_chooserTitle = "➥";
 
 
@@ -1750,12 +1753,12 @@ public class GsContextUtils {
     }
 
     private void setPathCallback(final GsCallback.a1<String> callback) {
-        _receivePathCallback = new WeakReference<>(callback);
+        _receivePathCallback = callback;
     }
 
     private void sendPathCallback(final String path) {
         if (!GsTextUtils.isNullOrEmpty(path) && _receivePathCallback != null) {
-            final GsCallback.a1<String> cb = _receivePathCallback.get();
+            final GsCallback.a1<String> cb = _receivePathCallback;
             if (cb != null) {
                 cb.callback(path);
             }
