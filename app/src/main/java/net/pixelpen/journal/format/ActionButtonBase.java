@@ -58,6 +58,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -173,16 +174,21 @@ public abstract class ActionButtonBase {
                 new ActionItem(R.string.abid_common_rotate_screen, R.drawable.ic_rotate_left_black_24dp, R.string.rotate).setDisplayMode(ActionItem.DisplayMode.ANY)
         );
 
-        // Order is enforced separately
-        final Map<Integer, ActionItem> unique = new HashMap<>();
-
-        for (final ActionItem item : commonActions) {
-            unique.put(item.keyId, item);
-        }
+        // This order is the default bar on a fresh install (a saved order overrides it), so it has
+        // to be a real order: the format's own list first, as written there, then the common
+        // actions it did not already name. A HashMap here gave the first bar in hash order,
+        // which is how the picture button ended up at the far end.
+        final Map<Integer, ActionItem> unique = new LinkedHashMap<>();
 
         // Actions in the derived class override common actions if they share the same keyId
         for (final ActionItem item : getFormatActionList()) {
             unique.put(item.keyId, item);
+        }
+
+        for (final ActionItem item : commonActions) {
+            if (!unique.containsKey(item.keyId)) {
+                unique.put(item.keyId, item);
+            }
         }
 
         return new ArrayList<>(unique.values());

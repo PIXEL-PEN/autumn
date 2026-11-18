@@ -64,17 +64,17 @@ The pencil and eye in the top bar switch between the two at any time.
 While you write, a row of buttons sits under the text. Swipe it sideways for
 more. The ones a journal uses most:
 
-@ic_image_black_24dp **Picture.** Take a photo, or choose one from your albums or files. Long-press to go straight to the camera. It is shown in the note and kept in the archive's `Images` folder, at 1024 pixels on the long side: plenty for a picture beside the words, and small enough to keep for decades.
+@ic_list_black_24dp **Bullet list.** Starts or continues a list.
 
 @ic_access_time_black_24dp **Date and time.** Tap to choose a format; long-press to insert the last one used. Good for running logs.
 
-@ic_check_box_black_24dp **Checklist.** A list of boxes to tick.
+@ic_image_black_24dp **Picture.** Take a photo, or choose one from your albums or files. Long-press to go straight to the camera. It is shown in the note and kept in the archive's `Images` folder, at 1024 pixels on the long side: plenty for a picture beside the words, and small enough to keep for decades.
 
-@ic_list_black_24dp **Bullet list.** Starts or continues a list.
-
-@ic_format_bold_black_24dp **Bold**, with *italic* and strikethrough beside it.
+@ic_format_bold_black_24dp **Bold.** *Italic* and strikethrough are further along the row.
 
 @format_header_1 **Headings**, in three sizes, for a long note that needs sections.
+
+@ic_check_box_black_24dp **Checklist.** A list of boxes to tick.
 
 @ic_format_quote_black_24dp **Quote**, for what someone actually said.
 
