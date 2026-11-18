@@ -73,6 +73,8 @@ more. The ones a journal uses most:
 
 @ic_more_horiz_black_24dp **Divider.** A line across the note, between one entry and the next.
 
+@ic_attach_file_black_24dp **Attach.** A file from your phone or Drive, copied into the archive's `Files` folder and linked from the note.
+
 @ic_format_bold_black_24dp **Bold.** *Italic* and strikethrough are further along the row.
 
 @format_header_1 **Headings**, in three sizes, for a long note that needs sections.
@@ -82,8 +84,6 @@ more. The ones a journal uses most:
 @ic_format_quote_black_24dp **Quote**, for what someone actually said.
 
 @ic_arrow_drop_down_black_24dp **Fold.** A section that stays closed in reading mode until tapped, like *Why Autumn?* at the top of this guide.
-
-@ic_attach_file_black_24dp **Attach.** A file from your phone or Drive, copied into the archive's `Files` folder and linked from the note.
 
 The order of the row is yours to change: **Settings → Editing → Action button
 order**.
