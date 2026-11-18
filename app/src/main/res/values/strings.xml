@@ -729,4 +729,5 @@
     <string name="qn_widget_empty">Type a quicknote first.</string>
     <string name="qn_widget_failed">Could not save the quicknote.</string>
     <string name="qn_widget_no_storage">Open Autumn once to allow storage access.</string>
+    <string name="attachment_too_large">Too large for the journal (%1$s). Attachments are limited to %2$s.</string>
 </resources>

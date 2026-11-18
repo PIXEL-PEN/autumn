@@ -46,6 +46,13 @@ import java.io.File;
 
 
 public class AttachLinkOrFileDialog {
+    /**
+     * The most a single attachment may be when it is copied into the archive. Autumn is for
+     * writing: a receipt, a letter or a voice memo fits easily, and a video does not. Pictures
+     * are exempt, because they are scaled down on the way in.
+     */
+    private static final long MAX_ATTACHMENT_BYTES = 10L * 1024L * 1024L;
+
     public final static int IMAGE_ACTION = 2, FILE_OR_LINK_ACTION = 3, AUDIO_ACTION = 4;
 
     private static String getImageFormat(final int textFormatId) {
@@ -419,6 +426,17 @@ public class AttachLinkOrFileDialog {
             // If path is not under notebook, copy it to the res folder
             final File attachment = new File(path);
 
+            final File home = ApplicationObject.settings().getNotebookDirectory();
+            if (!GsFileUtils.isChild(home, attachment)
+                    && !net.pixelpen.journal.model.ArchiveImages.isImageName(attachment.getName())
+                    && attachment.length() > MAX_ATTACHMENT_BYTES) {
+                Toast.makeText(activity, activity.getString(R.string.attachment_too_large,
+                                GsFileUtils.getReadableFileSize(attachment.length(), true),
+                                GsFileUtils.getReadableFileSize(MAX_ATTACHMENT_BYTES, true)),
+                        Toast.LENGTH_LONG).show();
+                return;
+            }
+
             // Pull the appropriate title
             String title = "";
             if (nameEdit != null) {
@@ -518,9 +536,11 @@ public class AttachLinkOrFileDialog {
                     final GsFileBrowserOptions.SelectionListener fsListener = new GsFileBrowserOptions.SelectionListenerAdapter() {
                         @Override
                         public void onFsViewerSelected(final String request, final File file, final Integer lineNumber) {
-                            if (action == InsertType.IMAGE_BROWSE) {
-                                // Like the gallery: copied into Images and scaled, not linked
-                                // where it lies, where a later tidy-up would break the note.
+                            if (file.isFile()) {
+                                // Copied into the archive (pictures scaled into Images, other
+                                // files into Files), not linked where it lies, where a later
+                                // tidy-up -- or a new phone -- would break the note. A file
+                                // already inside the archive is linked in place.
                                 insertFileLink.callback(file.getAbsolutePath());
                             } else {
                                 setFields.callback(file);

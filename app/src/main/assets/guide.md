@@ -99,6 +99,9 @@ Each picture is kept at 1024 pixels on the long side: plenty beside the words,
 and small enough to keep for decades. A photo taken from Autumn goes straight
 into the journal, not into your albums.
 
+Attachments are copied in whole, up to 10 MB each. A receipt, a letter or a
+voice memo fits easily; a video does not, and is better kept where it is.
+
 In a note, pinch a picture to zoom in. In the Timeline, tap a thumbnail to see
 it full screen, and swipe to move between pictures.
 
