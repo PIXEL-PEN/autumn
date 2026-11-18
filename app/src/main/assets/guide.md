@@ -40,7 +40,8 @@ Each entry is a file of its own, filed under its year, month and category.
 
 ## Categories
 
-Categories are the backbone of Autumn, and worth some thought when you set it up.
+@ic_folder_white_24dp **Categories** are the backbone of Autumn, and worth some thought when you set it up.
+
 A category is a folder with a name you chose: Work, Family, Health, Travel, a
 class, a project, whatever the shape of your life is.
 
@@ -89,16 +90,17 @@ order**.
 
 ## Pictures and files
 
-Pictures live in one place, `Images`, organised by year, and attachments in
-`Files`. It does not matter which screen you add a picture from: it goes to the
-same place, so nothing is scattered.
+@ic_home_black_24dp **In the home folder.** Pictures in `Images`, attachments in `Files`, each organised by year.
+
+It does not matter which screen you add a picture from: it goes to the same
+place, so nothing is scattered.
 
 Each picture is kept at 1024 pixels on the long side: plenty beside the words,
 and small enough to keep for decades. A photo taken from Autumn goes straight
 into the journal, not into your albums.
 
-Tap a thumbnail anywhere to see it full screen, and swipe to move between
-pictures.
+In a note, pinch a picture to zoom in. In the Timeline, tap a thumbnail to see
+it full screen, and swipe to move between pictures.
 
 ## Quicknotes
 
@@ -115,7 +117,7 @@ Long-press the logo to open the month's quicknotes.
 
 > *Use them sparingly. Quicknotes are for the small change of daily life. Lean on them too much and they become what General or Miscellaneous becomes: a place where things go to be lost. A quicknote written in a hurry can always be filed properly later.*
 
-There is an alternative. A regular note can be all title: titles run to 252
+**There is an alternative.** A regular note can be all title: titles run to 252
 characters, which is long enough to be a whole thought. You skim the titles with
 the benefit of categories, and can always open the note and write more. In the
 Tree, a long title shows an empty dot when there is nothing more to it, and a
@@ -182,8 +184,9 @@ what you asked for.
 
 ## Shortcuts
 
-Any note can be put on your home screen: open it, and choose **Add to home
-screen** from its menu. A shortcut opens the note ready to write in, which suits a
+@ic_guide_shortcut **Any note** can go on your home screen.
+
+Open it, and choose **Add to home screen** from its menu. A shortcut opens the note ready to write in, which suits a
 running log of one thing: a course of treatment, a car's servicing, a renovation.
 Use the date-and-time button to stamp each entry.
 
@@ -216,7 +219,9 @@ Its parts are simple:
 
 ### Going backwards
 
-Start with one phrase for the whole year. One word is often enough to define a
+@ic_undo_black_24dp **Start with one phrase for the whole year.**
+
+One word is often enough to define a
 year: 2020 is Covid, and you need nothing else for it to come back. Put a phrase
 against a year and you will find it starts pulling things with it: the graduation
 year, the first car, the year you fell in love, the year you moved.
@@ -226,9 +231,11 @@ arrive all at once. Go through photographs. Go through the drawer of things you
 kept. Ask relatives, who remember different years from you and will contradict
 you usefully.
 
-Expect enormous gaps, and do not treat them as failure. Four lines in a year is
-not an empty year, it is four anchors, and the next thing you remember will
-attach itself to one of them. A life log is built and rebuilt over years. It is
+Expect enormous gaps, that's normal. Four lines in a year is not an empty year,
+it is four anchors, and the next thing you remember will attach itself to one of
+them.
+
+A lifelog is built and rebuilt over years. It is
 never finished, which is the point: there is always a rainy afternoon's work in
 it, and it is better every time you come back.
 
@@ -242,8 +249,9 @@ Timeline keeps the shape.
 
 ### Keeping it
 
-**Export as web page**, in the Timeline's own menu, builds the whole Timeline as
-one page, pictures and all. It opens on any computer without Autumn installed, it
+@baseline_download_24 **Export as web page**, in the Timeline's own menu.
+
+It builds the whole Timeline as one page, pictures and all. It opens on any computer without Autumn installed, it
 prints, and it will still open in twenty years, which is not something you can say
 of most things you could export to. Build one at the end of a year, and keep a
 copy somewhere other than your phone.

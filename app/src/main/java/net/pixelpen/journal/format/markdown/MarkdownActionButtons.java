@@ -65,6 +65,7 @@ public class MarkdownActionButtons extends ActionButtonBase {
         return Arrays.asList(
                 // The default bar, in order. What a journal reaches for most comes first; the
                 // rest follow and each user can reorder in Settings -> Editing.
+                new ActionItem(R.string.abid_common_rotate_screen, R.drawable.ic_rotate_left_black_24dp, R.string.rotate).setDisplayMode(ActionItem.DisplayMode.ANY),
                 new ActionItem(R.string.abid_common_unordered_list_char, R.drawable.ic_list_black_24dp, R.string.unordered_list),
                 new ActionItem(R.string.abid_common_time, R.drawable.ic_access_time_black_24dp, R.string.date_and_time),
                 new ActionItem(R.string.abid_common_insert_image, R.drawable.ic_image_black_24dp, R.string.insert_image),
