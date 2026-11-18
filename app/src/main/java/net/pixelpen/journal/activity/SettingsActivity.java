@@ -145,6 +145,7 @@ public class SettingsActivity extends AutumnBaseActivity {
         @Override
         public void doUpdatePreferences() {
             setPreferenceVisible(R.string.pref_key__is_multi_window_enabled, Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+            setPreferenceVisible(R.string.pref_key__debug_welcome_every_launch, net.pixelpen.journal.BuildConfig.DEBUG);
             updateSummary(R.string.pref_key__more_info__project_license, getString(R.string.app_license_name));
             fillBuildInformationSummary();
             // The experimental-features gate hid tab width and line spacing behind a

@@ -518,6 +518,12 @@
     <string name="year_highlight_new">New highlight for %1$s</string>
     <string name="year_highlight_hint">What stood out?</string>
     <string name="year_highlight_when">Roughly when?</string>
+    <string name="year_highlight_rename">Rename</string>
+    <string name="year_highlight_change_month">Change month</string>
+    <string name="year_highlight_delete">Delete</string>
+    <string name="year_highlight_delete_confirm">Delete the highlight \"%1$s\" and anything written in it?</string>
+    <string name="welcome_every_launch">Welcome cards every launch</string>
+    <string name="welcome_every_launch_summary">Debug build only. For checking the cards; release builds show them once.</string>
 
     <!-- Life timeline. -->
     <string name="timeline">Timeline</string>

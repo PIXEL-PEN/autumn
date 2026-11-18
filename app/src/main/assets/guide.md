@@ -144,7 +144,8 @@ The Year screen is the long view: one year on one page.
 
 **Highlights** are the handful of things you want to remember about the year.
 There is no limit; a new empty slot appears as you fill them. They sort by the
-month they are about, not the day you wrote them.
+month they are about, not the day you wrote them. Long-press one to rename it, move it
+to another month, or delete it.
 
 **Personal growth** is a single open field for achievements, milestones, proud
 moments and aspirations: the things that do not belong to one date.

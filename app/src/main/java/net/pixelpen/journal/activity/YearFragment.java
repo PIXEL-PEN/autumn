@@ -331,6 +331,10 @@ public class YearFragment extends AutumnBaseFragment implements YearMonthAdapter
                 }
                 slot.setBackgroundResource(R.drawable.year_slot_filled);
                 slot.setOnClickListener(v -> openNote(e.file));
+                slot.setOnLongClickListener(v -> {
+                    showHighlightActions(e);
+                    return true;
+                });
             } else {
                 // Empty slots stay plain and unbolded, so the strip reads as what is there
                 // rather than as room left over.
@@ -462,6 +466,164 @@ public class YearFragment extends AutumnBaseFragment implements YearMonthAdapter
         final Intent i = new Intent(requireContext(), DocumentActivity.class);
         i.putExtra(Document.EXTRA_FILE, note);
         startActivity(i);
+    }
+
+    /**
+     * Long-press on a highlight: rename it, move it to another month, or delete it.
+     *
+     * <p>Highlights are written at the end of a year, when its shape is still settling, so they
+     * get reworded and reshuffled. A highlight is a file whose name is its title and whose first
+     * line is its month, and without this the only way to change either was a trip through the
+     * file browser.
+     */
+    private void showHighlightActions(final YearOverview.Event e) {
+        final CharSequence[] actions = {
+                getString(R.string.year_highlight_rename),
+                getString(R.string.year_highlight_change_month),
+                getString(R.string.year_highlight_delete)};
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle(e.title)
+                .setItems(actions, (d, which) -> {
+                    if (which == 0) {
+                        promptRenameHighlight(e);
+                    } else if (which == 1) {
+                        promptMoveHighlight(e);
+                    } else {
+                        confirmDeleteHighlight(e);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private void promptRenameHighlight(final YearOverview.Event e) {
+        final android.widget.EditText input = new android.widget.EditText(requireContext());
+        input.setInputType(android.text.InputType.TYPE_CLASS_TEXT
+                | android.text.InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        input.setText(e.title);
+        input.setSelection(e.title.length());
+
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle(R.string.year_highlight_rename)
+                .setView(input)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok, (d, w) -> {
+                    // The same sanitising as a new highlight: the title is the file name.
+                    final String title = input.getText().toString().trim()
+                            .replaceAll("[\\\\/:*?\"<>|]", "_");
+                    if (title.isEmpty() || title.equals(e.title)) {
+                        return;
+                    }
+                    final File target = new File(e.file.getParentFile(), title + ".md");
+                    // A change of capitals only is the same file on some storage, so it is
+                    // allowed through rather than refused as a clash with itself.
+                    if (target.exists() && !title.equalsIgnoreCase(e.title)) {
+                        toast(R.string.file_folder_already_exists_please_use_a_different_name);
+                        return;
+                    }
+                    if (!e.file.renameTo(target)) {
+                        toast(R.string.error_could_not_open_file);
+                        return;
+                    }
+                    reload();
+                })
+                .show();
+    }
+
+    /** The same twelve months as a new highlight; the choice replaces the month on line 1. */
+    private void promptMoveHighlight(final YearOverview.Event e) {
+        final YearOverview overview = _year;
+        int year;
+        try {
+            year = Integer.parseInt(overview != null ? overview.year : "");
+        } catch (final NumberFormatException ex) {
+            year = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR);
+        }
+        final int pickedYear = year;
+
+        final CharSequence[] months = new CharSequence[12];
+        final java.util.Calendar c = java.util.Calendar.getInstance();
+        for (int m = 0; m < 12; m++) {
+            c.set(pickedYear, m, 1);
+            months[m] = NoteTimestamp.formatMonth(c);
+        }
+        int current = -1;
+        if (e.aboutMillis > 0L) {
+            final java.util.Calendar when = java.util.Calendar.getInstance();
+            when.setTimeInMillis(e.aboutMillis);
+            if (when.get(java.util.Calendar.YEAR) == pickedYear) {
+                current = when.get(java.util.Calendar.MONTH);
+            }
+        }
+
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle(R.string.year_highlight_when)
+                .setSingleChoiceItems(months, current, (d, which) -> {
+                    d.dismiss();
+                    final java.util.Calendar about = java.util.Calendar.getInstance();
+                    about.set(pickedYear, which, 1);
+                    if (rewriteFirstLineStamp(e.file, NoteTimestamp.formatMonth(about))) {
+                        reload();
+                    } else {
+                        toast(R.string.error_could_not_open_file);
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    /**
+     * Put {@code stamp} on line 1: in place of the stamp already there, or above the text if the
+     * note has none. Nothing else in the note is touched.
+     */
+    private static boolean rewriteFirstLineStamp(final File f, final String stamp) {
+        try {
+            // Read by hand: Files.readAllBytes is API 26, and Autumn runs from 24.
+            final java.io.ByteArrayOutputStream buf = new java.io.ByteArrayOutputStream();
+            final java.io.FileInputStream is = new java.io.FileInputStream(f);
+            try {
+                final byte[] chunk = new byte[8192];
+                int n;
+                while ((n = is.read(chunk)) > 0) {
+                    buf.write(chunk, 0, n);
+                }
+            } finally {
+                is.close();
+            }
+            final String text = buf.toString("UTF-8");
+            final int nl = text.indexOf('\n');
+            final String first = (nl < 0) ? text : text.substring(0, nl);
+            final String out;
+            if (NoteTimestamp.parseAboutDate(first.trim()) != null) {
+                out = stamp + ((nl < 0) ? "\n" : text.substring(nl));
+            } else {
+                out = stamp + "\n\n" + text;
+            }
+            final java.io.FileOutputStream os = new java.io.FileOutputStream(f);
+            try {
+                os.write(out.getBytes("UTF-8"));
+            } finally {
+                os.close();
+            }
+            return true;
+        } catch (final Exception ex) {
+            return false;
+        }
+    }
+
+    private void confirmDeleteHighlight(final YearOverview.Event e) {
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle(R.string.year_highlight_delete)
+                .setMessage(getString(R.string.year_highlight_delete_confirm, e.title))
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.year_highlight_delete, (d, w) -> {
+                    if (!e.file.delete()) {
+                        toast(R.string.error_could_not_open_file);
+                        return;
+                    }
+                    reload();
+                })
+                .show();
     }
 
     private void toast(final int stringRes) {

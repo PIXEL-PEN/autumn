@@ -817,6 +817,12 @@ public class AppSettings extends GsSharedPreferencesPropertyBackend {
         return getBool(R.string.pref_key__is_quicknote_enabled, false);
     }
 
+    /** Debug builds: show the welcome cards on every launch. Always false in release. */
+    public boolean isWelcomeEveryLaunch() {
+        return net.pixelpen.journal.BuildConfig.DEBUG
+                && getBool(R.string.pref_key__debug_welcome_every_launch, false);
+    }
+
     public boolean isMultiWindowEnabled() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return getBool(R.string.pref_key__is_multi_window_enabled, false);

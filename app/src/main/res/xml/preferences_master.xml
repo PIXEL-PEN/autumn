@@ -204,6 +204,16 @@
         android:summary="@string/quicknote_show_in_bar"
         android:title="@string/quicknote" />
 
+        <!-- Debug builds only: hidden in release by doUpdatePreferences, and ignored there too
+             (WelcomeActivity checks BuildConfig.DEBUG as well), so a release can never show
+             the cards every launch. -->
+        <CheckBoxPreference
+        android:defaultValue="false"
+        android:icon="@drawable/ic_info_black_24dp"
+        android:key="@string/pref_key__debug_welcome_every_launch"
+        android:summary="@string/welcome_every_launch_summary"
+        android:title="@string/welcome_every_launch" />
+
                         <!-- Language is gone. There are 63 locale folders here, inherited from Markor, and
              none of them carries Autumn's own strings: the Calendar, Tree, Year, Timeline and
              category text is English only, and roughly a hundred upstream strings were never
