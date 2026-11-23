@@ -118,7 +118,7 @@ public class GuideActivity extends AutumnBaseActivity {
 
             final boolean isQuote = line.startsWith("> ");
             final boolean isIcon = line.matches("@=?[A-Za-z_][A-Za-z0-9_]*(\\s.*)?");
-            final boolean isOrnament = line.matches("@@[A-Za-z_][A-Za-z0-9_]*");
+            final boolean isOrnament = line.matches("@@=?[A-Za-z_][A-Za-z0-9_]*");
 
             // A wrapped paragraph is one view, and so is a wrapped callout. Both only end
             // when something else starts, which is why they are flushed here rather than
@@ -367,21 +367,32 @@ public class GuideActivity extends AutumnBaseActivity {
      */
     /**
      * {@code @@name}: a drawable alone on its line, centred, in the tagline's colour. An ending
-     * mark rather than an icon, so no chip behind it.
+     * mark rather than an icon, so no chip behind it. {@code @@=name} keeps the picture's own
+     * colours and looks in mipmap too, so the app's own leaf can close the Guide.
      */
-    private View ornament(final String name) {
-        @SuppressWarnings("DiscouragedApi")
-        final int id = getResources().getIdentifier(name, "drawable", getPackageName());
+    @SuppressWarnings("DiscouragedApi")
+    private View ornament(String name) {
+        final boolean ownColours = name.startsWith("=");
+        if (ownColours) {
+            name = name.substring(1);
+        }
+        int id = getResources().getIdentifier(name, "drawable", getPackageName());
+        if (id == 0) {
+            id = getResources().getIdentifier(name, "mipmap", getPackageName());
+        }
         if (id == 0) {
             return null;
         }
         final ImageView v = new ImageView(this);
         v.setImageResource(id);
-        v.setImageTintList(ColorStateList.valueOf(
-                ContextCompat.getColor(this, R.color.guide_tagline)));
+        if (!ownColours) {
+            v.setImageTintList(ColorStateList.valueOf(
+                    ContextCompat.getColor(this, R.color.guide_tagline)));
+        }
         v.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-        final LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                (int) dp(48), (int) dp(16));
+        final LinearLayout.LayoutParams lp = ownColours
+                ? new LinearLayout.LayoutParams((int) dp(44), (int) dp(44))
+                : new LinearLayout.LayoutParams((int) dp(48), (int) dp(16));
         lp.gravity = Gravity.CENTER_HORIZONTAL;
         lp.setMargins(0, (int) dp(28), 0, (int) dp(20));
         v.setLayoutParams(lp);

@@ -549,20 +549,143 @@ public class AttachLinkOrFileDialog {
             final Editable edit,
             final File currentFile
     ) {
-        final String[] choices = {
-                activity.getString(R.string.camera_picture),
-                activity.getString(R.string.gallery_picture)};
+        // With the cursor on a picture's line, the menu also offers to delete that picture.
+        // Deleting the link text by hand leaves the file behind in Images, where nothing points
+        // at it any more and nothing will ever clean it up.
+        final PictureAtCursor here = findPictureAtCursor(edit, currentFile);
+        final String[] choices = (here == null)
+                ? new String[]{activity.getString(R.string.camera_picture),
+                activity.getString(R.string.gallery_picture)}
+                : new String[]{activity.getString(R.string.camera_picture),
+                activity.getString(R.string.gallery_picture),
+                activity.getString(R.string.picture_delete)};
         new AlertDialog.Builder(activity, R.style.Theme_AppCompat_DayNight_Dialog_Rounded)
                 .setTitle(R.string.insert_image)
                 .setItems(choices, (d, which) -> {
                     if (which == 0) {
                         insertCameraPhoto(activity, textFormatId, edit, currentFile);
-                    } else {
+                    } else if (which == 1) {
                         insertGalleryPhoto(activity, textFormatId, edit, currentFile);
+                    } else {
+                        confirmDeletePicture(activity, edit, currentFile, here);
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    /** A picture link on the cursor's line, and the archive file it points at. */
+    private static final class PictureAtCursor {
+        final int start, end;   // the link's extent in the text
+        final File file;
+
+        PictureAtCursor(final int start, final int end, final File file) {
+            this.start = start;
+            this.end = end;
+            this.file = file;
+        }
+    }
+
+    private static final java.util.regex.Pattern IMAGE_LINK =
+            java.util.regex.Pattern.compile("!\\[[^\\]]*\\]\\(\\s*<?([^)>\\s]+)>?(?:\\s+\"[^\"]*\")?\\s*\\)");
+
+    /**
+     * The picture link the cursor is on, or the only one on its line, if it points at a file
+     * inside the archive. Null otherwise: a web picture, or a link to a file outside the archive,
+     * is not Autumn's to delete.
+     */
+    @Nullable
+    private static PictureAtCursor findPictureAtCursor(final Editable edit, final File currentFile) {
+        if (edit == null || currentFile == null || currentFile.getParentFile() == null) {
+            return null;
+        }
+        final int cur = Math.max(0, Math.min(TextViewUtils.getSelection(edit)[0], edit.length()));
+        final String text = edit.toString();
+        final int lineStart = text.lastIndexOf('\n', cur - 1) + 1;
+        int lineEnd = text.indexOf('\n', cur);
+        if (lineEnd < 0) {
+            lineEnd = text.length();
+        }
+        final java.util.regex.Matcher m = IMAGE_LINK.matcher(text.substring(lineStart, lineEnd));
+        int found = 0;
+        java.util.regex.MatchResult only = null, atCursor = null;
+        while (m.find()) {
+            found++;
+            only = m.toMatchResult();
+            if (lineStart + m.start() <= cur && cur <= lineStart + m.end()) {
+                atCursor = m.toMatchResult();
+            }
+        }
+        final java.util.regex.MatchResult pick = (atCursor != null) ? atCursor : (found == 1 ? only : null);
+        if (pick == null) {
+            return null;
+        }
+        final String target = android.net.Uri.decode(pick.group(1));
+        if (target.contains("://")) {
+            return null;
+        }
+        try {
+            final File f = new File(currentFile.getParentFile(), target).getCanonicalFile();
+            final File home = ApplicationObject.settings().getNotebookDirectory().getCanonicalFile();
+            if (!f.isFile() || !GsFileUtils.isChild(home, f)) {
+                return null;
+            }
+            return new PictureAtCursor(lineStart + pick.start(), lineStart + pick.end(), f);
+        } catch (final Exception e) {
+            return null;
+        }
+    }
+
+    private static void confirmDeletePicture(final Activity activity, final Editable edit,
+                                             final File currentFile, final PictureAtCursor p) {
+        new AlertDialog.Builder(activity, R.style.Theme_AppCompat_DayNight_Dialog_Rounded)
+                .setTitle(R.string.picture_delete)
+                .setMessage(R.string.picture_delete_confirm)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.picture_delete, (d, w) -> {
+                    // The link goes from the note in any case. The file goes too, unless another
+                    // note still shows it: deleting it then would break that note instead.
+                    int start = p.start, end = p.end;
+                    if (end < edit.length() && edit.charAt(end) == '\n'
+                            && (start == 0 || edit.charAt(start - 1) == '\n')) {
+                        end++;  // the link was the whole line: take the line with it
+                    }
+                    edit.delete(start, end);
+                    if (isUsedElsewhere(p.file, currentFile)) {
+                        Toast.makeText(activity, R.string.picture_kept_in_use, Toast.LENGTH_LONG).show();
+                    } else if (!p.file.delete()) {
+                        Toast.makeText(activity, R.string.error_could_not_open_file, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .show();
+    }
+
+    /** True if any note other than {@code self} mentions the file's name. */
+    private static boolean isUsedElsewhere(final File file, final File self) {
+        final File home = ApplicationObject.settings().getNotebookDirectory();
+        final String name = file.getName();
+        final java.util.ArrayDeque<File> dirs = new java.util.ArrayDeque<>();
+        dirs.add(home);
+        while (!dirs.isEmpty()) {
+            final File[] list = dirs.poll().listFiles();
+            if (list == null) {
+                continue;
+            }
+            for (final File f : list) {
+                if (f.isDirectory()) {
+                    if (!f.getName().startsWith(".")) {
+                        dirs.add(f);
+                    }
+                } else if (!f.equals(self) && f.getName().matches("(?i).+\\.(md|txt|markdown|json|html?)")
+                        && f.length() < 2_000_000L) {
+                    final String t = GsFileUtils.readTextFileFast(f).first;
+                    if (t != null && t.contains(name)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /** Attach: straight to Android's file picker; the file is copied in and linked. */

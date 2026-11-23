@@ -99,6 +99,9 @@ Each picture is kept at 1024 pixels on the long side: plenty beside the words,
 and small enough to keep for decades. A photo taken from Autumn goes straight
 into the journal, not into your albums.
 
+To remove a picture for good, put the cursor on its line and tap the picture
+button: **Delete this picture** takes it out of the note and out of `Images`.
+
 Attachments are copied in whole, up to 10 MB each. A receipt, a letter or a
 voice memo fits easily; a video does not, and is better kept where it is.
 
@@ -285,4 +288,4 @@ point of storing it this way.
 zip, to anywhere you choose. **Export html archive** turns it into web pages,
 zipped, for reading on a computer.
 
-@@ic_guide_flourish
+@@=ic_launcher_foreground

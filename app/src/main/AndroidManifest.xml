@@ -154,6 +154,7 @@
 
         <activity
             android:name=".activity.DocumentActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden"
             android:exported="false"
             android:label="@string/app_name"
             android:parentActivityName=".activity.MainActivity"

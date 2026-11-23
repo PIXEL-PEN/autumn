@@ -518,6 +518,9 @@
     <string name="year_highlight_new">New highlight for %1$s</string>
     <string name="year_highlight_hint">What stood out?</string>
     <string name="year_highlight_when">Roughly when?</string>
+    <string name="picture_delete">Delete this picture</string>
+    <string name="picture_delete_confirm">The picture is removed from this note and deleted from Images. This cannot be undone.</string>
+    <string name="picture_kept_in_use">Removed from this note. The picture file is kept: another note still shows it.</string>
     <string name="year_highlight_rename">Rename</string>
     <string name="year_highlight_change_month">Change month</string>
     <string name="year_highlight_delete">Delete</string>
