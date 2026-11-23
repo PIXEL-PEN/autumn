@@ -92,8 +92,9 @@ order**.
 
 @ic_home_black_24dp **In the home folder.** Pictures in `Images`, attachments in `Files`, each organised by year.
 
-It does not matter which screen you add a picture from: it goes to the same
-place, so nothing is scattered.
+A picture added to a note and a picture added to the Timeline end up in the
+same place: `Images`, in the folder for its year. They are never stored beside
+the notes themselves, so all your pictures are in one folder you can find.
 
 Each picture is kept at 1024 pixels on the long side: plenty beside the words,
 and small enough to keep for decades. A photo taken from Autumn goes straight
@@ -151,8 +152,8 @@ There is no limit; a new empty slot appears as you fill them. They sort by the
 month they are about, not the day you wrote them. Long-press one to rename it, move it
 to another month, or delete it.
 
-**Personal growth** is a single open field for achievements, milestones, proud
-moments and aspirations: the things that do not belong to one date.
+> **Personal growth** is a single open field for achievements, milestones, proud
+> moments and aspirations: the things that do not belong to one date.
 
 Below those, every month lists its entries, newest first. Tap one to open it.
 
@@ -245,9 +246,9 @@ you usefully.
 Four lines in a year is not an empty year, it is four anchors, and the next
 thing you remember will attach itself to one of them.
 
-A lifelog is built and rebuilt over years. It is never finished, which is the
-point: there is always a rainy afternoon's work in it, and it is better every
-time you come back.
+> A lifelog is built and rebuilt over years. It is never finished, which is the
+> point: there is always a rainy afternoon's work in it, and it is better every
+> time you come back.
 
 ### Going forwards
 
