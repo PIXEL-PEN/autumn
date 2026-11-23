@@ -518,7 +518,10 @@
     <string name="year_highlight_new">New highlight for %1$s</string>
     <string name="year_highlight_hint">What stood out?</string>
     <string name="year_highlight_when">Roughly when?</string>
-    <string name="picture_delete">Delete this picture</string>
+    <string name="picture_this_one">This picture</string>
+    <string name="picture_remove_link">Remove link</string>
+    <string name="picture_delete">Delete from Autumn permanently</string>
+    <string name="picture_delete_yes">Delete</string>
     <string name="picture_delete_confirm">The picture is removed from this note and deleted from Images. This cannot be undone.</string>
     <string name="picture_kept_in_use">Removed from this note. The picture file is kept: another note still shows it.</string>
     <string name="year_highlight_rename">Rename</string>

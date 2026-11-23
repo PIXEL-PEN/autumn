@@ -99,8 +99,9 @@ Each picture is kept at 1024 pixels on the long side: plenty beside the words,
 and small enough to keep for decades. A photo taken from Autumn goes straight
 into the journal, not into your albums.
 
-To remove a picture for good, put the cursor on its line and tap the picture
-button: **Delete this picture** takes it out of the note and out of `Images`.
+To take a picture out, put the cursor on its line and tap the picture button.
+**Remove link** takes it out of the note and keeps the file; **Delete from
+Autumn permanently** removes the file from `Images` as well.
 
 Attachments are copied in whole, up to 10 MB each. A receipt, a letter or a
 voice memo fits easily; a video does not, and is better kept where it is.

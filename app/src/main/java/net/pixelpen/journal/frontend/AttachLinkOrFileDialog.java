@@ -549,29 +549,90 @@ public class AttachLinkOrFileDialog {
             final Editable edit,
             final File currentFile
     ) {
-        // With the cursor on a picture's line, the menu also offers to delete that picture.
-        // Deleting the link text by hand leaves the file behind in Images, where nothing points
-        // at it any more and nothing will ever clean it up.
+        // With the cursor on a picture's line, the menu also has a separate section for that
+        // picture: remove the link only, or delete it from Autumn altogether. Deleting the link
+        // text by hand leaves the file behind in Images, where nothing points at it any more.
         final PictureAtCursor here = findPictureAtCursor(edit, currentFile);
-        final String[] choices = (here == null)
-                ? new String[]{activity.getString(R.string.camera_picture),
-                activity.getString(R.string.gallery_picture)}
-                : new String[]{activity.getString(R.string.camera_picture),
-                activity.getString(R.string.gallery_picture),
-                activity.getString(R.string.picture_delete)};
-        new AlertDialog.Builder(activity, R.style.Theme_AppCompat_DayNight_Dialog_Rounded)
+
+        final LinearLayout list = new LinearLayout(activity);
+        list.setOrientation(LinearLayout.VERTICAL);
+        list.setPadding(0, dp(activity, 8), 0, 0);
+        final AlertDialog[] shown = new AlertDialog[1];
+
+        list.addView(menuRow(activity, R.string.camera_picture, false, () -> {
+            shown[0].dismiss();
+            insertCameraPhoto(activity, textFormatId, edit, currentFile);
+        }));
+        list.addView(menuRow(activity, R.string.gallery_picture, false, () -> {
+            shown[0].dismiss();
+            insertGalleryPhoto(activity, textFormatId, edit, currentFile);
+        }));
+
+        if (here != null) {
+            // Apart from the insert choices: a rule, a little space, and its own heading.
+            final View rule = new View(activity);
+            final LinearLayout.LayoutParams rlp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, Math.max(1, dp(activity, 1)));
+            rlp.setMargins(dp(activity, 24), dp(activity, 12), dp(activity, 24), dp(activity, 4));
+            rule.setLayoutParams(rlp);
+            rule.setBackgroundColor(0x33888888);
+            list.addView(rule);
+
+            final android.widget.TextView heading = new android.widget.TextView(activity);
+            heading.setText(R.string.picture_this_one);
+            heading.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 13);
+            heading.setAlpha(0.7f);
+            heading.setPadding(dp(activity, 24), dp(activity, 8), dp(activity, 24), dp(activity, 2));
+            list.addView(heading);
+
+            list.addView(menuRow(activity, R.string.picture_remove_link, false, () -> {
+                shown[0].dismiss();
+                removeLink(edit, here);
+            }));
+            list.addView(menuRow(activity, R.string.picture_delete, true, () -> {
+                shown[0].dismiss();
+                confirmDeletePicture(activity, edit, currentFile, here);
+            }));
+        }
+
+        shown[0] = new AlertDialog.Builder(activity, R.style.Theme_AppCompat_DayNight_Dialog_Rounded)
                 .setTitle(R.string.insert_image)
-                .setItems(choices, (d, which) -> {
-                    if (which == 0) {
-                        insertCameraPhoto(activity, textFormatId, edit, currentFile);
-                    } else if (which == 1) {
-                        insertGalleryPhoto(activity, textFormatId, edit, currentFile);
-                    } else {
-                        confirmDeletePicture(activity, edit, currentFile, here);
-                    }
-                })
+                .setView(list)
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
+    }
+
+    private static int dp(final Activity a, final int v) {
+        return Math.round(v * a.getResources().getDisplayMetrics().density);
+    }
+
+    /** One tappable row in the picture menu, styled like a list item. */
+    private static View menuRow(final Activity a, final int text, final boolean destructive,
+                                final Runnable onTap) {
+        final android.widget.TextView row = new android.widget.TextView(a);
+        row.setText(text);
+        row.setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, 16);
+        row.setPadding(dp(a, 24), dp(a, 14), dp(a, 24), dp(a, 14));
+        row.setMinHeight(dp(a, 48));
+        row.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        if (destructive) {
+            row.setTextColor(0xFFC62828);
+        }
+        final android.util.TypedValue tv = new android.util.TypedValue();
+        a.getTheme().resolveAttribute(android.R.attr.selectableItemBackground, tv, true);
+        row.setBackgroundResource(tv.resourceId);
+        row.setOnClickListener(v -> onTap.run());
+        return row;
+    }
+
+    /** Take the link out of the note; if it was the whole line, the line goes with it. */
+    private static void removeLink(final Editable edit, final PictureAtCursor p) {
+        int start = p.start, end = p.end;
+        if (end < edit.length() && edit.charAt(end) == '\n'
+                && (start == 0 || edit.charAt(start - 1) == '\n')) {
+            end++;
+        }
+        edit.delete(start, end);
     }
 
     /** A picture link on the cursor's line, and the archive file it points at. */
@@ -642,15 +703,10 @@ public class AttachLinkOrFileDialog {
                 .setTitle(R.string.picture_delete)
                 .setMessage(R.string.picture_delete_confirm)
                 .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(R.string.picture_delete, (d, w) -> {
+                .setPositiveButton(R.string.picture_delete_yes, (d, w) -> {
                     // The link goes from the note in any case. The file goes too, unless another
                     // note still shows it: deleting it then would break that note instead.
-                    int start = p.start, end = p.end;
-                    if (end < edit.length() && edit.charAt(end) == '\n'
-                            && (start == 0 || edit.charAt(start - 1) == '\n')) {
-                        end++;  // the link was the whole line: take the line with it
-                    }
-                    edit.delete(start, end);
+                    removeLink(edit, p);
                     if (isUsedElsewhere(p.file, currentFile)) {
                         Toast.makeText(activity, R.string.picture_kept_in_use, Toast.LENGTH_LONG).show();
                     } else if (!p.file.delete()) {
