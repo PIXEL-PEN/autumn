@@ -167,11 +167,11 @@ Pick one and scroll. A year of it fits in a few seconds of thumb, and what you g
 is not a list so much as a shape: which months were busy, which were empty, where
 things clustered. You see the pattern before you read a word of it.
 
-It earns its keep when something is going on. Choose a health category and the
-year lays itself out: every appointment, every clinic visit, every trip to the
-pharmacy, in order. The hard months are the dense ones; you can see them from the
-top of the screen. And when you need the detail, the name of a drug, a dose, a
-side effect, what the consultant actually said, it is one tap away in the note.
+> Choose a health category and the year lays itself out: every appointment,
+> every clinic visit, every trip to the pharmacy, in order. The hard months are
+> the dense ones; you can see them from the top of the screen. And when you need
+> the detail, the name of a drug, a dose, a side effect, what the consultant
+> actually said, it is one tap away in the note.
 
 The same works for anything you keep faithfully: a year of a project, a year of a
 relationship, a year of a house.
