@@ -45,9 +45,9 @@ Each entry is a file of its own, filed under its year, month and category.
 A category is a folder with a name you chose: Work, Family, Health, Travel, a
 class, a project, whatever the shape of your life is.
 
-Too few categories, or ones too broad, and unrelated things pile up together. Too
-many, and every note starts with a decision you would rather not make. Decide what
-you most want to keep track of, and organise around that.
+> Too few categories, or ones too broad, and unrelated things pile up together. Too
+> many, and every note starts with a decision you would rather not make. Decide what
+> you most want to keep track of, and organise around that.
 
 Autumn starts with eight: Finance, General, Ideas, Key Events, Medical-Health,
 Projects, Reference and Social. Rename, delete or add your own. General stays.
@@ -100,9 +100,9 @@ Each picture is kept at 1024 pixels on the long side: plenty beside the words,
 and small enough to keep for decades. A photo taken from Autumn goes straight
 into the journal, not into your albums.
 
-To take a picture out, put the cursor on its line and tap the picture button.
-**Remove link** takes it out of the note and keeps the file; **Delete from
-Autumn permanently** removes the file from `Images` as well.
+> To take a picture out, put the cursor on its line and tap the picture button.
+> **Remove link** takes it out of the note and keeps the file; **Delete from
+> Autumn permanently** removes the file from `Images` as well.
 
 Attachments are copied in whole, up to 10 MB each. A receipt, a letter or a
 voice memo fits easily; a video does not, and is better kept where it is.
