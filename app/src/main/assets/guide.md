@@ -11,22 +11,22 @@ could list most of what was in it, and you could not say what came before what.
 Given long enough the whole thing settles into an undifferentiated *back then*.
 
 +++ Why Autumn?
-Three years ago I had cataract surgery on both eyes, the two operations about
-eight months apart. Different clinics, different underlying causes, different
-prescriptions and follow-up visits. Recovery was slow and lasted well over a year:
-irritation, eye strain, one brand of eye drops after another. Worry.
-
-Today all I remember is how slow the recovery was. I have forgotten which eye was
-treated at which clinic, which drops worked and which caused side effects. My
-eyesight is fully restored; my memory of it is not. Should I ever need another
-course of drops, or want to look back over the details, they are all here in
-Autumn.
-
-Or a smaller one. You buy an appliance and the receipt goes on the pile with all
-the others. Less than a year later it breaks, and the store will honour the
-warranty if you can find the receipt. You empty every drawer and closet and you
-cannot. A note under **Purchases** with a photo of the receipt in it, and you have
-it.
+> Three years ago I had cataract surgery on both eyes, the two operations about
+> eight months apart. Different clinics, different underlying causes, different
+> prescriptions and follow-up visits. Recovery was slow and lasted well over a year:
+> irritation, eye strain, one brand of eye drops after another. Worry.
+>
+> Today all I remember is how slow the recovery was. I have forgotten which eye was
+> treated at which clinic, which drops worked and which caused side effects. My
+> eyesight is fully restored; my memory of it is not. Should I ever need another
+> course of drops, or want to look back over the details, they are all here in
+> Autumn.
+>
+> Or a more common one. You buy an appliance and the receipt goes on the pile with all
+> the others. Less than a year later it breaks, and the store will honour the
+> warranty if you can find the receipt. You empty every drawer and closet and you
+> cannot. A note under **Purchases** with a photo of the receipt in it, and you have
+> it.
 +++
 
 ## Calendar

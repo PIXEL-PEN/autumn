@@ -116,7 +116,9 @@ public class GuideActivity extends AutumnBaseActivity {
                 continue;
             }
 
-            final boolean isQuote = line.startsWith("> ");
+            // A ">" line on its own is a paragraph break inside a callout, so one box can hold
+            // more than one paragraph (Why Autumn?) without becoming a stack of boxes.
+            final boolean isQuote = line.startsWith("> ") || line.equals(">");
             final boolean isIcon = line.matches("@=?[A-Za-z_][A-Za-z0-9_]*(\\s.*)?");
             final boolean isOrnament = line.matches("@@=?[A-Za-z_][A-Za-z0-9_]*");
 
@@ -162,7 +164,15 @@ public class GuideActivity extends AutumnBaseActivity {
             }
 
             if (isQuote) {
-                append(quote, line.substring(2));
+                if (line.equals(">")) {
+                    if (quote.length() > 0) {
+                        quote.append("\n\n");
+                    }
+                } else if (quote.length() > 0 && quote.charAt(quote.length() - 1) == '\n') {
+                    quote.append(line.substring(2));
+                } else {
+                    append(quote, line.substring(2));
+                }
             } else if (line.startsWith("- ")) {
                 container.addView(bullet(line.substring(2)));
             } else if (isIcon) {
